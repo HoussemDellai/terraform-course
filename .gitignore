@@ -1,1 +1,3 @@
 07_kubernetes_aks/.terraform.lock.hcl
+20_tf_features/.terraform.lock.hcl
+20_tf_features/.terraform/providers/registry.terraform.io/hashicorp/azurerm/2.39.0/windows_amd64/terraform-provider-azurerm_v2.39.0_x5.exe
