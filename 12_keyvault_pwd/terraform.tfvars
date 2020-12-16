@@ -1,0 +1,5 @@
+resource_group_name    = "kv_terraform_rg"
+location               = "West Europe"
+keyvault_name          = "demokv0109"
+secret_name = "DatabasePassword"
+secret_value = "@Aa123456789!"
