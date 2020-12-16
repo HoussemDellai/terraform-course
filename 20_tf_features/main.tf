@@ -22,4 +22,20 @@ resource "azurerm_resource_group" "env_rg" {
   name     = each.key
   location = each.value
 }
+##############################################
+resource "azurerm_resource_group" "apps_rg" {
+  count    = 3
+  name     = "app-${count.index}"
+  location = "westeurope"
+}
+##############################################
+variable "apps_names" {
+  type    = list(string)
+  default = ["frontend", "backend", "database"]
+}
 
+resource "azurerm_resource_group" "org_apps_rg" {
+  count    = length(var.apps_names)
+  name     = var.apps_names[count.index]
+  location = "westeurope"
+}
