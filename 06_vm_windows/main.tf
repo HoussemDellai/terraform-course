@@ -113,26 +113,26 @@ resource "azurerm_bastion_host" "bastion" {
 // // SETTINGS
 // }
 
-resource "azurerm_virtual_machine_extension" "extension" {
-  name                 = "k8s-tools-deploy01"
-  virtual_machine_id   = azurerm_windows_virtual_machine.vm.id
-  publisher            = "Microsoft.Compute"
-  type                 = "CustomScriptExtension"
-  type_handler_version = "1.9.5" # "2.0"
-
-  settings = <<SETTINGS
-    {
-        "script": "hostname"
-    }
-SETTINGS
+// resource "azurerm_virtual_machine_extension" "extension" {
+//   name                 = "k8s-tools-deploy01"
+//   virtual_machine_id   = azurerm_windows_virtual_machine.vm.id
+//   publisher            = "Microsoft.Compute"
+//   type                 = "CustomScriptExtension"
+//   type_handler_version = "1.9.5" # "2.0"
 
 //   settings = <<SETTINGS
 //     {
 //         "script": "hostname"
-//         # "commandToExecute": "hostname"
 //     }
 // SETTINGS
-}
+
+// //   settings = <<SETTINGS
+// //     {
+// //         "script": "hostname"
+// //         # "commandToExecute": "hostname"
+// //     }
+// // SETTINGS
+// }
 
 # # Install Azure CLI
 # Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
