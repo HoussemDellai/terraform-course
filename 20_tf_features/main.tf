@@ -65,3 +65,44 @@ resource "azurerm_resource_group" "dev_rg" {
 }
 
 # managed_disk_type = var.environment == "Dev" ? "Standard_LRS" : "Premium_LRS"
+
+##############################################
+# random_string
+##############################################
+
+resource "random_string" "random_password" {
+  length = 20
+  special = true
+  override_special = "!@#$%&*()-_=+[]{}<>:?"
+  min_special = 2
+  min_upper = 2
+  min_lower = 5
+  min_numeric = 3
+}
+
+output "random_password" {
+  value = random_string.random_password.result
+}
+
+##############################################
+# random_integer
+##############################################
+
+resource "random_integer" "random_number" {
+  min = 5
+  max = 100
+}
+
+output "random_number" {
+  value = random_integer.random_number.result
+}
+
+##############################################
+# random_uuid
+##############################################
+
+resource "random_uuid" "random_id" { }
+
+output "random_id" {
+  value = random_uuid.random_id.result
+}
