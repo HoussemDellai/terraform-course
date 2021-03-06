@@ -15,8 +15,12 @@ pool:
 
 steps:
 
+# - script: |
+#       docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --file /tf/main.tf --compact
+#   displayName: Run Static Code analysis for Terraform using Checkov
+
 - script: |
-      docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --file /tf/main.tf --compact
+      docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf --output junitxml > $(System.DefaultWorkingDirectory)/Checkov-Report.xml
   displayName: Run Static Code analysis for Terraform using Checkov
 
 - script: |
