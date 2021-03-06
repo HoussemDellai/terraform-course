@@ -28,6 +28,9 @@ steps:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/Checkov-Report.xml'
     testRunTitle: 'Checkov for Terraform Scan'
+    publishRunAttachments: true
+    failTaskOnFailedTests: false
+    mergeTestResults: false
 
 - script: |
       docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf
