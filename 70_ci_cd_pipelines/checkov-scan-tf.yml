@@ -15,47 +15,48 @@ pool:
 
 steps:
 
+- script: |
+      docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --file /tf/main.tf --compact
+      # docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf --compact
+  displayName: Run Static Code analysis for Terraform using Checkov
+
 # - script: |
-#       docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --file /tf/main.tf --compact
+#       mkdir CheckovResults
+#       docker run --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf --output junitxml > $(System.DefaultWorkingDirectory)/CheckovResults/Checkov-Report.xml
 #   displayName: Run Static Code analysis for Terraform using Checkov
 
-- script: |
-      mkdir CheckovResults
-      docker run --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf --output junit.xml > $(System.DefaultWorkingDirectory)/CheckovResults/Checkov-Report.xml
-  displayName: Run Static Code analysis for Terraform using Checkov
+# - task: PublishTestResults@2
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: '**/Checkov-Report.xml'
+#     testRunTitle: 'Checkov for Terraform Scan'
+#     publishRunAttachments: true
+#     failTaskOnFailedTests: false
+#     mergeTestResults: false
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/Checkov-Report.xml'
-    testRunTitle: 'Checkov for Terraform Scan'
-    publishRunAttachments: true
-    failTaskOnFailedTests: false
-    mergeTestResults: false
+# - script: |
+#       docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf
+#   displayName: Run Static Code analysis for Terraform using Checkov
 
-- script: |
-      docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf
-  displayName: Run Static Code analysis for Terraform using Checkov
+# - script: |
+#       pip install checkov
+#   displayName: # install Checkov from pypi using pip
 
-- script: |
-      pip install checkov
-  displayName: # install Checkov from pypi using pip
+# - script: |
 
-- script: |
-
-      # cd into a folder like /13_storage_blob/
-      cd $(System.DefaultWorkingDirectory)/13_storage_blob/
+#       # cd into a folder like /13_storage_blob/
+#       cd $(System.DefaultWorkingDirectory)/13_storage_blob/
       
-      # Scan config files in current folder
-      checkov -d .
+#       # Scan config files in current folder
+#       checkov -d .
       
-      # Scan and output compact
-      checkov -d . --compact
+#       # Scan and output compact
+#       checkov -d . --compact
       
-      # Scan specific file
-      checkov -f main.tf --compact
+#       # Scan specific file
+#       checkov -f main.tf --compact
       
-      # Export check to json
-      checkov -d . -o json
+#       # Export check to json
+#       checkov -d . -o json
 
-  displayName: Run Static Code analysis for Terraform using Checkov CLI
+#   displayName: Run Static Code analysis for Terraform using Checkov CLI
