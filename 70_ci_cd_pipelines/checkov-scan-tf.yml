@@ -10,20 +10,13 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+      docker run --tty --volume $(System.DefaultWorkingDirectory)/13_storage_blob:/tf bridgecrew/checkov --directory /tf
 
 - script: |
       # install Checkov from pypi using pip
       pip install checkov
-
-- script: |
-      docker run --tty --volume /13_storage_blob/:/tf bridgecrew/checkov --directory /tf
 
 - script: |
 
