@@ -23,10 +23,10 @@ steps:
       pip install checkov
 
 - script: |
-      pwd
-      ls
-      ls $(System.DefaultWorkingDirectory)
-      
+      docker run --tty --volume /13_storage_blob/:/tf bridgecrew/checkov --directory /tf
+
+- script: |
+
       # cd into a folder like /13_storage_blob/
       cd $(System.DefaultWorkingDirectory)/13_storage_blob/
       
