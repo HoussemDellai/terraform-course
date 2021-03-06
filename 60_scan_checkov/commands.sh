@@ -1,3 +1,6 @@
+# https://www.checkov.io
+# https://www.checkov.io/1.Introduction/Getting%20Started.html
+
 # install Checkov from pypi using pip
 pip install checkov
 
@@ -15,3 +18,7 @@ checkov -f main.tf --compact
 
 # Export check to json
 checkov -d . -o json
+
+# check the list of resources scan:
+# https://github.com/bridgecrewio/checkov/blob/master/docs/3.Scans/resource-scans.md
+# or also here: https://www.checkov.io/3.Scans/resource-scans.html
