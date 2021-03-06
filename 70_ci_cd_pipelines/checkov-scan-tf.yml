@@ -6,17 +6,21 @@
 trigger:
 - main
 
+variables:
+- name: tf_folder
+  value: $(System.DefaultWorkingDirectory)/13_storage_blob 
+
 pool:
   vmImage: ubuntu-latest
 
 steps:
 
 - script: |
-      docker run --tty --volume /13_storage_blob:/tf bridgecrew/checkov --file /tf/main.tf --compact
+      docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --file /tf/main.tf --compact
   displayName: Run Static Code analysis for Terraform using Checkov
 
 - script: |
-      docker run --tty --volume /13_storage_blob:/tf bridgecrew/checkov --directory /tf
+      docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf
   displayName: Run Static Code analysis for Terraform using Checkov
 
 - script: |
