@@ -12,11 +12,12 @@ pool:
 steps:
 
 - script: |
-      docker run --tty --volume $(System.DefaultWorkingDirectory)/13_storage_blob:/tf bridgecrew/checkov --directory /tf
+      docker run --tty --volume /13_storage_blob:/tf bridgecrew/checkov --directory /tf
+  displayName: Run Static Code analysis for Terraform using Checkov
 
 - script: |
-      # install Checkov from pypi using pip
       pip install checkov
+  displayName: # install Checkov from pypi using pip
 
 - script: |
 
@@ -34,3 +35,5 @@ steps:
       
       # Export check to json
       checkov -d . -o json
+
+  displayName: Run Static Code analysis for Terraform using Checkov CLI
