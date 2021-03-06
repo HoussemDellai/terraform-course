@@ -12,6 +12,10 @@ pool:
 steps:
 
 - script: |
+      docker run --tty --volume /13_storage_blob:/tf bridgecrew/checkov --file /tf/main.tf --compact
+  displayName: Run Static Code analysis for Terraform using Checkov
+
+- script: |
       docker run --tty --volume /13_storage_blob:/tf bridgecrew/checkov --directory /tf
   displayName: Run Static Code analysis for Terraform using Checkov
 
