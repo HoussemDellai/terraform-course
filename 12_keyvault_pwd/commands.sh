@@ -17,6 +17,9 @@ terraform plan -out tfplan
 terraform show -json tfplan
 terraform show -json tfplan >> tfplan.json
 
+# Format tfplan.json file
+terraform show -json tfplan | jq '.' > tfplan.json
+
 # apply the infra changes
 terraform apply tfplan
 

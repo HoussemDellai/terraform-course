@@ -20,6 +20,10 @@ terraform plan -out tfplan -var rg_name="rg-main-app" -var location="westeurope"
 # show the tfplan file
 terraform show -json tfplan
 terraform show -json tfplan >> tfplan.json
+
+# Format tfplan.json file
+terraform show -json tfplan | jq '.' > tfplan.json
+
 # show only the changes
 cat tfplan.json | jq -r '(.resource_changes[] | [.change.actions[], .type, .change.after.name]) | @tsv'
 cat tfplan.json | jq '[.resource_changes[] | {type: .type, name: .change.after.name, actions: .change.actions[]}]' 
