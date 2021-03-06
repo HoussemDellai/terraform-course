@@ -23,6 +23,12 @@ steps:
       docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf --output junitxml > $(System.DefaultWorkingDirectory)/Checkov-Report.xml
   displayName: Run Static Code analysis for Terraform using Checkov
 
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/Checkov-Report.xml'
+    testRunTitle: 'Checkov for Terraform Scan'
+
 - script: |
       docker run --tty --volume $(tf_folder):/tf bridgecrew/checkov --directory /tf
   displayName: Run Static Code analysis for Terraform using Checkov
