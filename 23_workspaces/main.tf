@@ -19,17 +19,7 @@ variable "resource_group_names" {
   }
 }
 
-variable "subsc" {
-  type    = map
-  default = {
-    dev  = "subscId_Dev"
-    test = "test-rg"
-    prod = "prod-rg"
-  }
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_names[terraform.workspace]
   location = "westeurope"
-  Subsc
 }
