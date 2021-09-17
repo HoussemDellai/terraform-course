@@ -18,7 +18,7 @@ stages:
       inputs:
         terraformVersion: '0.14.8'
 
-    - task: TerraformTaskV1@0
+    - task: TerraformTaskV2@2
       displayName: $ terraform init
       inputs:
         provider: 'azurerm'
@@ -30,7 +30,7 @@ stages:
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'terraform.state'
     
-    - task: TerraformTaskV1@0
+    - task: TerraformTaskV2@2
       displayName: $ terraform plan
       inputs:
         provider: 'azurerm'
@@ -98,7 +98,7 @@ stages:
       inputs:
         terraformVersion: '0.14.8'
 
-    - task: TerraformTaskV1@0
+    - task: TerraformTaskV2@2
       displayName: $ terraform init
       inputs:
         provider: 'azurerm'
@@ -110,7 +110,7 @@ stages:
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'terraform.state'
 
-    - task: TerraformTaskV1@0
+    - task: TerraformTaskV2@2
       displayName: $ terraform apply
       inputs:
         provider: 'azurerm'
