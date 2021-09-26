@@ -8,10 +8,10 @@ az storage account create -g myResourceGroup -n tfsademo01
 # init terraform's Azure provider
 terraform init
 
-# import the above created resource group into terraform state file
 # replace $SUBSCRIPTION_ID with your own subscription ID
 $SUBSCRIPTION_ID="replace here"
 
+# import the above created resource group into terraform state file
 terraform import azurerm_resource_group.rg '/subscriptions/$SUBSCRIPTION_ID/resourceGroups/myResourceGroup'
 
 # importing the resource group doesn't automatically import its child resources
