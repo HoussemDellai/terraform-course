@@ -24,9 +24,9 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
-        backendServiceArm: 'FAB-SPN'
-        backendAzureRmResourceGroupName: 'terraform-state-fab-rg'
-        backendAzureRmStorageAccountName: 'terraformstatefab056'
+        backendServiceArm: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
+        backendAzureRmResourceGroupName: 'terraform-demo'
+        backendAzureRmStorageAccountName: 'terraformdemo01'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'terraform.state'
     
@@ -37,7 +37,7 @@ stages:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
         commandOptions: '-out tfplan'
-        environmentServiceNameAzureRM: 'FAB-SPN'
+        environmentServiceNameAzureRM: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
     
     - script: |
           cd $(System.DefaultWorkingDirectory)/01_ResourceGroup
@@ -104,9 +104,9 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
-        backendServiceArm: 'FAB-SPN'
-        backendAzureRmResourceGroupName: 'terraform-state-fab-rg'
-        backendAzureRmStorageAccountName: 'terraformstatefab056'
+        backendServiceArm: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
+        backendAzureRmResourceGroupName: 'terraform-demo'
+        backendAzureRmStorageAccountName: 'terraformdemo01'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'terraform.state'
 
@@ -117,4 +117,4 @@ stages:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
         commandOptions: 'tfplan'
-        environmentServiceNameAzureRM: 'FAB-SPN'
+        environmentServiceNameAzureRM: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
