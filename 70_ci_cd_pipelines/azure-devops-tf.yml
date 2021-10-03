@@ -23,10 +23,10 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
-        backendServiceArm: 'FAB-SPN'
-        backendAzureRmResourceGroupName: 'terraform-state-fab-rg'
-        backendAzureRmStorageAccountName: 'terraformstatefab056'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database'
+        backendServiceArm: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
+        backendAzureRmResourceGroupName: 'terraform-demo'
+        backendAzureRmStorageAccountName: 'terraformdemo01'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'terraform.state'
     
@@ -35,12 +35,12 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database'
         commandOptions: '-out tfplan'
-        environmentServiceNameAzureRM: 'FAB-SPN'
+        environmentServiceNameAzureRM: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
     
     - script: |
-          cd $(System.DefaultWorkingDirectory)/01_ResourceGroup
+          cd $(System.DefaultWorkingDirectory)/05_Web_Sql_database
           terraform show -json tfplan >> tfplan.json
           # Format tfplan.json file
           terraform show -json tfplan | jq '.' > tfplan.json
@@ -51,7 +51,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: Upload tfplan
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/01_ResourceGroup/'
+        PathtoPublish: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database/'
         ArtifactName: 'drop'
         publishLocation: 'Container'
   
@@ -91,7 +91,7 @@ stages:
       inputs:
         SourceFolder: '$(System.ArtifactsDirectory)/drop'
         Contents: 'tfplan'
-        TargetFolder: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
+        TargetFolder: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database'
  
     - task: TerraformInstaller@0
       displayName: Install TF 0.14.8
@@ -103,10 +103,10 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
-        backendServiceArm: 'FAB-SPN'
-        backendAzureRmResourceGroupName: 'terraform-state-fab-rg'
-        backendAzureRmStorageAccountName: 'terraformstatefab056'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database'
+        backendServiceArm: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
+        backendAzureRmResourceGroupName: 'terraform-demo'
+        backendAzureRmStorageAccountName: 'terraformdemo01'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'terraform.state'
 
@@ -115,6 +115,6 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/01_ResourceGroup'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database'
         commandOptions: 'tfplan'
-        environmentServiceNameAzureRM: 'FAB-SPN'
+        environmentServiceNameAzureRM: 'Microsoft-Azure-5(0cb12691-4f8e-4a66-abab-4481e2f0517e)'
