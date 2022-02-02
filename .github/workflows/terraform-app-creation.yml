@@ -1,3 +1,5 @@
+#Terraform in this pipeline will create the app just once
+#if same pipeline run withou making modification on the name of the app , it would fail.
 
 name: 'Terraform'
 
