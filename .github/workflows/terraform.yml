@@ -54,7 +54,7 @@ jobs:
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./01_ResourceGroup""
+        tf_actions_working_dir: "./01_ResourceGroup"
  
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main'
@@ -62,4 +62,4 @@ jobs:
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'applya'
-        tf_actions_working_dir: "./01_ResourceGroup""
+        tf_actions_working_dir: "./01_ResourceGroup"
