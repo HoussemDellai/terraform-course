@@ -40,8 +40,8 @@ jobs:
       with:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'init'
-        tf_actions_working_dir: "./1_ResourceGroup""
- 
+        tf_actions_working_dir: "./1_ResourceGroup"
+        
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
       with:
