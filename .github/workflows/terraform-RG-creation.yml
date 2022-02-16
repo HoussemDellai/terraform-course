@@ -60,7 +60,6 @@ jobs:
         tf_actions_working_dir:  "./01_ResourceGroup"
         
     - name: Terraform Apply
-      if: github.ref == 'feature/rg-*'
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 0.14.8
