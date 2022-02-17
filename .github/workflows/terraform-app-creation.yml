@@ -6,7 +6,7 @@ name: 'Terraform'
 on:
   push:
     branches:
-    - main
+    - feature
   pull_request:
 
 jobs:
