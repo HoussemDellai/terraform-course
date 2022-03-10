@@ -65,7 +65,9 @@ stages:
     - task: ManualValidation@0
       inputs:
         notifyUsers: 'houssem.dellai@live.com'
-        instructions: 'you should validate the Terraform Plan file'
+        instructions: |
+          you should validate the Terraform Plan file
+          $(Build.BuildId)
     
 - stage: Terraform_apply
 
