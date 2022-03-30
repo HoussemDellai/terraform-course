@@ -80,7 +80,16 @@ jobs:
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
-
+    
+    - name: Configuring the Service Principal in Terraform
+      run: |
+        echo ${{ secrets.AZURE_CREDENTIALS }} | jq .clientId
+        
+        export ARM_CLIENT_ID=${{ secrets.AZURE_CREDENTIALS }} | jq .clientId
+        export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
+        export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+        export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
+    
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
