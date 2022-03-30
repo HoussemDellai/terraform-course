@@ -99,7 +99,7 @@ jobs:
         #STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
         #CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
       run: |
-        terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
+        terraform init -backend-config='storage_account_name=$STORAGE_ACCOUNT_NAME' \
                        -backend-config="container_name=$CONTAINER_NAME" \
                        -backend-config="resource_group_name=$RESOURCE_GROUP_NAME"
     
