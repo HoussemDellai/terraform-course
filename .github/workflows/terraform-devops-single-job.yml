@@ -49,7 +49,6 @@ jobs:
       with:
         # Azure CLI version to be used to execute the script. If not provided, latest version is used
         # azcliversion: 2.34.1 # optional, default is agentazcliversion
-        # Specify the script here
         inlineScript: |
           az version
 
@@ -79,11 +78,6 @@ jobs:
           EOT
           
           cat backend.tf
-          pwd
-          ls
-          # az logout 
-          # az cache purge
-          # az account clear
 
     # Install the latest version of Terraform CLI
     - name: Install Terraform
@@ -101,10 +95,8 @@ jobs:
       run: |
         # Initialize a new or existing Terraform working directory by creating initial files, 
         # loading any remote state, downloading modules, etc.
-        ls
-        cat backend.tf
-        pwd
         terraform init
+        # Either use the backend.tf file with the config inside or use the following command line
         # terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
         #                -backend-config="container_name=$CONTAINER_NAME" \
         #                -backend-config="resource_group_name=$RESOURCE_GROUP_NAME"
@@ -112,7 +104,18 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
+      continue-on-error: true
 
+    - name: Terraform Plan
+      id: plan
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      if: github.event_name == 'push' # 'pull_request'
+      run: terraform plan -no-color 
+      
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan
