@@ -9,6 +9,10 @@ on:
     - main
 
 env:
+  STORAGE_ACCOUNT_NAME: storagetfstate011
+  RESOURCE_GROUP_NAME: rg-terraform-state
+  CONTAINER_NAME: tfstate
+  BLOB_NAME: terraform.tfstate
   WORKING_DIRECTORY: 05_Web_Sql_database
   
 jobs:
@@ -34,7 +38,6 @@ jobs:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-
 #    - name: Create Azure Resource Group
 #      uses: Azure/cli@v1.0.6
 #      with:
@@ -47,11 +50,6 @@ jobs:
     
     - name: Create Terraform backend state storage
       run: |
-        STORAGE_ACCOUNT_NAME=storagetfstate011
-        RESOURCE_GROUP_NAME=rg-terraform-state
-        CONTAINER_NAME=tfstate
-        BLOB_NAME=terraform.tfstate
-        
         # Create resource group
         az group create --name $RESOURCE_GROUP_NAME --location westeurope
         
