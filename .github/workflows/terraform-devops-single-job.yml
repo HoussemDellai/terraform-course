@@ -115,7 +115,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.event_name == 'push' # 'pull_request'
       run: |
-        terraform plan -out tfplan
+        terraform plan -no-color 
         # terraform plan -out tfplan -no-color 
         
         # # show the tfplan file
