@@ -1,6 +1,9 @@
 trigger:
 - main
 
+variables:
+  tf_version: 1.1.7
+
 stages:
 - stage: Terraform_init_plan
 
@@ -14,9 +17,9 @@ stages:
     steps:
     
     - task: TerraformInstaller@0
-      displayName: Install TF 0.14.8
+      displayName: Install TF $(tf_version)
       inputs:
-        terraformVersion: '0.14.8'
+        terraformVersion: $(tf_version)
 
     - task: TerraformTaskV2@2
       displayName: $ terraform init
@@ -96,9 +99,9 @@ stages:
         TargetFolder: '$(System.DefaultWorkingDirectory)/05_Web_Sql_database'
  
     - task: TerraformInstaller@0
-      displayName: Install TF 0.14.8
+      displayName: Install TF $(tf_version)
       inputs:
-        terraformVersion: '0.14.8'
+        terraformVersion: $(tf_version)
 
     - task: TerraformTaskV2@2
       displayName: $ terraform init
