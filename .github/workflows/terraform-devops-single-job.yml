@@ -14,10 +14,10 @@ env:
   CONTAINER_NAME: tfstate
   BLOB_NAME: terraform.tfstate
   
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+#  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+#  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+#  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+#  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   
   WORKING_DIRECTORY: 05_Web_Sql_database
   
@@ -93,11 +93,11 @@ jobs:
     
     - name: Terraform Init
       id: init
-#      env:
-#        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-#        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-#        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-#        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       run: |
         # Initialize a new or existing Terraform working directory by creating initial files, 
         # loading any remote state, downloading modules, etc.
