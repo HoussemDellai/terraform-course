@@ -81,9 +81,9 @@ jobs:
           
           cat backend.tf
           
-          az logout 
-          az cache purge
-          az account clear
+          # az logout 
+          # az cache purge
+          # az account clear
 
     # Install the latest version of Terraform CLI
     - name: Install Terraform
