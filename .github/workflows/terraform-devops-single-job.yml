@@ -101,6 +101,8 @@ jobs:
       run: |
         # Initialize a new or existing Terraform working directory by creating initial files, 
         # loading any remote state, downloading modules, etc.
+        ls
+        cat backend.tf
         terraform init
         # terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
         #                -backend-config="container_name=$CONTAINER_NAME" \
