@@ -8,13 +8,16 @@ on:
     branches: 
     - main
 
+env:
+  WORKING_DIRECTORY: 05_Web_Sql_database
+  
 jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
-    env:
-      WORKING_DIRECTORY: 05_Web_Sql_database
+#    env:
+#      WORKING_DIRECTORY: 05_Web_Sql_database
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -27,7 +30,7 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Create Terraform backend state storage
-      working-directory: 05_Web_Sql_database # $WORKING_DIRECTORY
+      working-directory: $WORKING_DIRECTORY
       run: |
         STORAGE_ACCOUNT_NAME=storagetfstate011
         RESOURCE_GROUP_NAME=rg-terraform-state
