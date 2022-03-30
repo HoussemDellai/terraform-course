@@ -86,13 +86,18 @@ jobs:
           az account clear
 
     # Install the latest version of Terraform CLI
-    - name: Setup Terraform
+    - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.1.7
     
     - name: Terraform Init
       id: init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       run: |
         # Initialize a new or existing Terraform working directory by creating initial files, 
         # loading any remote state, downloading modules, etc.
