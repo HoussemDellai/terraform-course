@@ -34,6 +34,7 @@ jobs:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+
 #    - name: Create Azure Resource Group
 #      uses: Azure/cli@v1.0.6
 #      with:
@@ -76,6 +77,10 @@ jobs:
         EOT
         
         cat backend.tf
+        
+        az logout 
+        az cache purge
+        az account clear
 
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
