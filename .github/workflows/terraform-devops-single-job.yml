@@ -28,6 +28,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       
+    - name: Login to Azure
+      uses: Azure/login@v1.4.3
+      with:
+        # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+#    - name: Create Azure Resource Group
+#      uses: Azure/cli@v1.0.6
+#      with:
+#        # Azure CLI version to be used to execute the script. If not provided, latest version is used
+#        # azcliversion: 2.34.1 # optional, default is agentazcliversion
+#        # Specify the script here
+#        inlineScript: |
+#          az version
+#          az group create -n $RESOURCE_GROUP -l westeurope
+    
     - name: Create Terraform backend state storage
       run: |
         STORAGE_ACCOUNT_NAME=storagetfstate011
