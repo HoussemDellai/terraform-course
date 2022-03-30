@@ -28,11 +28,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       
-    - name: Login to Azure
-      uses: Azure/login@v1.4.3
-      with:
-        # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+#    - name: Login to Azure
+#      uses: Azure/login@v1.4.3
+#      with:
+#        # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+#        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
 #    - name: Create Azure Resource Group
 #      uses: Azure/cli@v1.0.6
@@ -80,23 +80,27 @@ jobs:
     # Install the latest version of Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.1.7
     
-    - name: Configuring the Service Principal in Terraform
+    - name: Terraform Init
+      id: init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        #RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+        #STORAGE_ACCOUNT: ${{ secrets.STORAGE_ACCOUNT }}
+        #CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
       run: |
-        echo ${{ secrets.AZURE_CREDENTIALS }}
-        
-        echo ${{ secrets.AZURE_CREDENTIALS }} | sed 's/./& /g' 
-
-        echo ${{ secrets.AZURE_CREDENTIALS }} | jq .clientId
-        
-        export ARM_CLIENT_ID=${{ secrets.AZURE_CREDENTIALS }} | jq .clientId
-        export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
-        export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
-        export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
+        terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
+                       -backend-config="container_name=$CONTAINER_NAME" \
+                       -backend-config="resource_group_name=$RESOURCE_GROUP_NAME"
     
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
+#    - name: Terraform Init
+#      run: terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
