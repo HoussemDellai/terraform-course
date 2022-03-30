@@ -114,11 +114,9 @@ jobs:
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.event_name == 'push' # 'pull_request'
-      run: terraform plan -out tfplan -no-color 
-    
-    # Generates an execution plan for Terraform
-    - name: View Terraform Plan
       run: |
+        terraform plan -out tfplan -no-color 
+        
         # show the tfplan file
         terraform show -json tfplan
         terraform show -json tfplan >> tfplan.json
@@ -129,7 +127,7 @@ jobs:
         cat tfplan.json | jq '[.resource_changes[] | {type: .type, name: .change.after.name, actions: .change.actions[]}]' 
         cat tfplan.json | jq -r '(.resource_changes[] | [.change.actions[], .type, .change.after.name]) | @tsv'
 
-    - name: add-plan-comment
+    - name: Add Terraform Plan Comment
       id: comment
       uses: actions/github-script@v3
       if: github.event_name == 'push' # 'pull_request'
@@ -161,4 +159,9 @@ jobs:
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       run: terraform apply -auto-approve
