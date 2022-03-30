@@ -16,13 +16,12 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
-#    env:
-#      WORKING_DIRECTORY: 05_Web_Sql_database
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -30,7 +29,6 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Create Terraform backend state storage
-      working-directory: $WORKING_DIRECTORY
       run: |
         STORAGE_ACCOUNT_NAME=storagetfstate011
         RESOURCE_GROUP_NAME=rg-terraform-state
@@ -70,20 +68,16 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
-      working-directory: $WORKING_DIRECTORY
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
-      working-directory: $WORKING_DIRECTORY
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan
-      working-directory: $WORKING_DIRECTORY
 
       # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve
-      working-directory: $WORKING_DIRECTORY
