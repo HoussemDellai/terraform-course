@@ -38,7 +38,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       
-    - name: Login to Azure
+    - name: Login to Azure with Service Principal
       uses: Azure/login@v1.4.3
       with:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
@@ -52,9 +52,7 @@ jobs:
         # Specify the script here
         inlineScript: |
           az version
-    
-          #- name: Create Terraform backend state storage
-          #  run: |
+
           # Create resource group
           az group create --name $RESOURCE_GROUP_NAME --location westeurope
           
@@ -80,7 +78,8 @@ jobs:
           EOT
           
           cat backend.tf
-          
+          pwd
+          ls
           # az logout 
           # az cache purge
           # az account clear
@@ -103,6 +102,7 @@ jobs:
         # loading any remote state, downloading modules, etc.
         ls
         cat backend.tf
+        pwd
         terraform init
         # terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
         #                -backend-config="container_name=$CONTAINER_NAME" \
