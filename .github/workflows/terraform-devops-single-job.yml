@@ -64,22 +64,22 @@ jobs:
              --sku Standard_LRS \
              --encryption-services blob
           
-          # Create blob container
-          az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
-          
-          # generate backend.tf file
-          cat <<EOT > backend.tf
-          terraform {
-            backend "azurerm" {
-              resource_group_name   = "$RESOURCE_GROUP_NAME"
-              storage_account_name  = "$STORAGE_ACCOUNT_NAME"
-              container_name        = "$CONTAINER_NAME"
-              key                   = "$BLOB_NAME"
-            }
-          }
-          EOT
-          
-          cat backend.tf
+          # # Create blob container
+          # az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
+          # 
+          # # generate backend.tf file
+          # cat <<EOT > backend.tf
+          # terraform {
+          #   backend "azurerm" {
+          #     resource_group_name   = "$RESOURCE_GROUP_NAME"
+          #     storage_account_name  = "$STORAGE_ACCOUNT_NAME"
+          #     container_name        = "$CONTAINER_NAME"
+          #     key                   = "$BLOB_NAME"
+          #   }
+          # }
+          # EOT
+          # 
+          # cat backend.tf
           
           az logout 
           az cache purge
