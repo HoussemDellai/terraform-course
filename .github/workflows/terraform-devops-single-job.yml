@@ -130,7 +130,7 @@ jobs:
 
     - name: Add Terraform Plan Comment
       id: comment
-      uses: actions/github-script@v3
+      uses: actions/github-script@v6
       if: github.event_name == 'push' # 'pull_request'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
