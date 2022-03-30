@@ -1,5 +1,5 @@
-trigger:
-- main
+trigger: none
+# - main
 
 variables:
 - name: tf_folder
