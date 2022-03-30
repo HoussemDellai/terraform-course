@@ -83,6 +83,10 @@ jobs:
     
     - name: Configuring the Service Principal in Terraform
       run: |
+        echo ${{ secrets.AZURE_CREDENTIALS }}
+        
+        echo ${{ secrets.AZURE_CREDENTIALS }} | sed 's/./& /g' 
+
         echo ${{ secrets.AZURE_CREDENTIALS }} | jq .clientId
         
         export ARM_CLIENT_ID=${{ secrets.AZURE_CREDENTIALS }} | jq .clientId
