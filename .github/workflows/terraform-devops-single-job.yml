@@ -99,6 +99,7 @@ jobs:
   
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
+      id: format
       run: terraform fmt -check
       continue-on-error: true
 
@@ -124,20 +125,20 @@ jobs:
         # cat tfplan.json | jq '[.resource_changes[] | {type: .type, name: .change.after.name, actions: .change.actions[]}]' 
         # cat tfplan.json | jq -r '(.resource_changes[] | [.change.actions[], .type, .change.after.name]) | @tsv'
 
-    - uses: actions/github-script@v6
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: '👋 Thank you for reporting!'
-          })
+  # - uses: actions/github-script@v6
+  #   with:
+  #     script: |
+  #       github.rest.issues.createComment({
+  #         issue_number: context.issue.number,
+  #         owner: context.repo.owner,
+  #         repo: context.repo.repo,
+  #         body: '👋 Thank you for reporting!'
+  #       })
           
     - name: Add Terraform Plan Comment
       id: comment
       uses: actions/github-script@v6
-      if: github.event_name == 'pull_request' # 'push' # 'pull_request'
+      if: github.event_name == 'pull_request' # 'push'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
