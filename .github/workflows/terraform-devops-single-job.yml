@@ -17,8 +17,32 @@ env:
   WORKING_DIRECTORY: 05_Web_Sql_database
   
 jobs:
-  terraform:
-    name: 'Terraform'
+  checkov-job:
+    runs-on: ubuntu-latest
+    name: Scan Terraform with Checov
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@master
+
+      - name: Run Checkov Scan
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ${{ env.WORKING_DIRECTORY }}
+          soft_fail: true # optional: do not return an error code if there are failed checks
+          # check: CKV_AWS_1 # optional: run only a specific check_id. can be comma separated list
+          # skip_check: CKV_AWS_2 # optional: skip a specific check_id. can be comma separated list
+          # quiet: true # optional: display only failed checks
+          # framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+          # output_format: sarif # optional: the output format, one of: cli, json, junitxml, github_failed_only, or sarif. Default: sarif
+          # download_external_modules: true # optional: download external terraform modules from public git repositories and terraform registry
+          # log_level: DEBUG # optional: set log level. Default WARNING
+          # config_file: path/this_file
+          # baseline: cloudformation/.checkov.baseline # optional: Path to a generated baseline file. Will only report results not in the baseline.
+          # container_user: 1000 # optional: Define what UID and / or what GID to run the container under to prevent permission issues
+ 
+  deploy-azure-infra-terraform:
+    name: Deploy Azure Infra with Terraform
     runs-on: ubuntu-latest
     environment: production
 
@@ -32,7 +56,7 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
-      
+                
     - name: Login to Azure with Service Principal
       uses: Azure/login@v1.4.3
       with:
@@ -125,16 +149,6 @@ jobs:
         # cat tfplan.json | jq '[.resource_changes[] | {type: .type, name: .change.after.name, actions: .change.actions[]}]' 
         # cat tfplan.json | jq -r '(.resource_changes[] | [.change.actions[], .type, .change.after.name]) | @tsv'
 
-  # - uses: actions/github-script@v6
-  #   with:
-  #     script: |
-  #       github.rest.issues.createComment({
-  #         issue_number: context.issue.number,
-  #         owner: context.repo.owner,
-  #         repo: context.repo.repo,
-  #         body: '👋 Thank you for reporting!'
-  #       })
-          
     - name: Add Terraform Plan Comment
       id: comment
       uses: actions/github-script@v6
@@ -144,7 +158,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.format.outcome }}\`
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
