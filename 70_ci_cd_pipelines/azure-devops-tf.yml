@@ -1,5 +1,14 @@
 trigger: none
 # - main
+pr: none
+  # branches:
+  #   include:
+  #   - features/*
+  #   exclude:
+  #   - features/experimental/*
+  # paths:
+  #   exclude:
+  #   - README.md
 
 variables:
   tf_version: 1.1.7
