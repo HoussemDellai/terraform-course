@@ -7,15 +7,11 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-resource "azurerm_app_service_plan" "app_plan" {
+resource "azurerm_service_plan" "app_plan" {
   name                = var.app_service_plan_name
-  location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
+  location            = azurerm_resource_group.rg.location
+  sku_name            = "P1V2"
 }
 
 resource "azurerm_app_service" "webapp" {
