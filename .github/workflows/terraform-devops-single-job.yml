@@ -17,7 +17,7 @@ env:
   WORKING_DIRECTORY: 05_Web_Sql_database
   
 jobs:
-  checkov-job:
+  scan-terraform-config:
     runs-on: ubuntu-latest
     name: Scan Terraform with Checov
     steps:
@@ -42,9 +42,10 @@ jobs:
           # container_user: 1000 # optional: Define what UID and / or what GID to run the container under to prevent permission issues
  
   deploy-azure-infra-terraform:
-    name: Deploy Azure Infra with Terraform
+    name: Deploy to Azure with Terraform
     runs-on: ubuntu-latest
     environment: production
+    needs: [scan-terraform-config]
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:

@@ -1,5 +1,5 @@
 resource_group_name     = "rg-terraform-web-sql-db"
-resource_group_location = "westeurope"
+resource_group_location = "northeurope"
 app_service_plan_name   = "appserviceplan-web"
 app_service_name        = "terraform-web-019"
 sql_server_name         = "terraform-sqlserver-019"
