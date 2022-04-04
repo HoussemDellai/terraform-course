@@ -2,11 +2,14 @@ name: 'Create Infra with Terraform'
 
 on:
   push:
-    branches:
-    - main
-  pull_request:
-    branches: 
-    - main
+    branches: none
+    # - main
+  pull_request: 
+    branches: none
+    # - main
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 env:
   STORAGE_ACCOUNT_NAME: storagetfstate013
