@@ -16,7 +16,7 @@ az storage account create --name $STORAGE_ACCOUNT_NAME \
 az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
 
 # generate backend.tf file
-cat <<EOT >> backend.tf
+cat <<EOT > backend.tf
 terraform {
   backend "azurerm" {
     resource_group_name   = "$RESOURCE_GROUP_NAME"
