@@ -1,7 +1,7 @@
 ## Deploy an AKS cluster with an Application Gateway (Brownfield)
 This sample terraform template deploys an AKS cluster with an Application Gateway.  
 1) Deploy an Application Gateway  
-2) Deploy an AKS cluster  
+2) Deploy an AKS cluster with 2 node pools  
 3) Enable AKS Addon to deploy AGIC and attach Application Gateway  
 4) Add Contributor role assignment for the AGIC Managed Identity (the AGIC addon missed this step although it works with Azure CLI)  
 

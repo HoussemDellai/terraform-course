@@ -120,40 +120,11 @@ resource "azurerm_application_gateway" "appgw" {
   depends_on = [azurerm_virtual_network.vnet, azurerm_public_ip.pip]
 }
 
-# resource "azurerm_role_assignment" "ra1" {
-#   scope                = data.azurerm_subnet.kubesubnet.id
-#   role_definition_name = "Network Contributor"
-#   principal_id         = var.aks_service_principal_object_id
-
-#   depends_on = [azurerm_virtual_network.vnet]
-# }
-
-# resource "azurerm_role_assignment" "ra2" {
-#   scope                = azurerm_user_assigned_identity.testIdentity.id
-#   role_definition_name = "Managed Identity Operator"
-#   principal_id         = var.aks_service_principal_object_id
-#   depends_on           = [azurerm_user_assigned_identity.testIdentity]
-# }
-
-# resource "azurerm_role_assignment" "ra3" {
-#   scope                = azurerm_application_gateway.appgw.id
-#   role_definition_name = "Contributor"
-#   principal_id         = azurerm_user_assigned_identity.testIdentity.principal_id
-#   depends_on           = [azurerm_user_assigned_identity.testIdentity, azurerm_application_gateway.appgw]
-# }
-
-# resource "azurerm_role_assignment" "ra4" {
-#   scope                = azurerm_resource_group.rg.id
-#   role_definition_name = "Reader"
-#   principal_id         = azurerm_user_assigned_identity.testIdentity.principal_id
-#   depends_on           = [azurerm_user_assigned_identity.testIdentity, azurerm_application_gateway.appgw]
-# }
-
 resource "azurerm_kubernetes_cluster" "k8s" {
-  name       = var.aks_name
-  location   = azurerm_resource_group.rg.location
+  name               = var.aks_name
+  location           = azurerm_resource_group.rg.location
   kubernetes_version = "1.22.6"
-  dns_prefix = var.aks_dns_prefix
+  dns_prefix         = var.aks_dns_prefix
 
   resource_group_name = azurerm_resource_group.rg.name
   node_resource_group = var.node_resource_group
@@ -167,7 +138,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   default_node_pool {
-    name            = "agentpool"
+    name            = "systempool"
     node_count      = var.aks_agent_count
     vm_size         = var.aks_agent_vm_size
     os_disk_size_gb = var.aks_agent_os_disk_size
@@ -176,7 +147,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
   identity {
     type = "SystemAssigned"
-    # user_assigned_identity_id = 
   }
 
   network_profile {
@@ -200,6 +170,12 @@ resource "azurerm_kubernetes_cluster" "k8s" {
       # gateway_name = # give a name to the generated AppGW
       # subnet_cidr  = # specify the CIDR range for the Subnet that will be created
     }
+    azure_policy {
+      enabled = true
+    }
+    open_service_mesh {
+      enabled = true
+    }
   }
 
   depends_on = [azurerm_virtual_network.vnet, azurerm_application_gateway.appgw]
@@ -208,17 +184,47 @@ resource "azurerm_kubernetes_cluster" "k8s" {
 
 # AppGW (generated with addon) Identity needs also Contributor role over AKS/VNET RG
 resource "azurerm_role_assignment" "ra" {
-  scope                = azurerm_resource_group.rg.id # azurerm_virtual_network.vnet.id # azurerm_resource_group.rg.id
-  role_definition_name = "Contributor" # "Network Contributor"# "Contributor"
+  scope                = azurerm_resource_group.rg.id
+  role_definition_name = "Contributor"
   principal_id         = data.azurerm_user_assigned_identity.identity-appgw.principal_id
 
-  depends_on           = [azurerm_kubernetes_cluster.k8s, azurerm_application_gateway.appgw]
+  depends_on = [azurerm_kubernetes_cluster.k8s, azurerm_application_gateway.appgw]
 }
 
 # generated managed identity for app gateway
 data "azurerm_user_assigned_identity" "identity-appgw" {
-  name                = "ingressapplicationgateway-${var.aks_name}"
+  name                = "ingressapplicationgateway-${var.aks_name}" # convention name for AGIC Identity
   resource_group_name = var.node_resource_group
 
   depends_on = [azurerm_kubernetes_cluster.k8s]
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "appspool" {
+  name                   = "appspool"
+  kubernetes_cluster_id  = azurerm_kubernetes_cluster.k8s.id
+  vm_size                = "Standard_DS2_v2"
+  node_count             = 1
+  availability_zones     = ["1", "2", "3"]
+  mode                   = "User"
+  orchestrator_version   = "1.22.6"
+  os_type                = "Linux"
+  enable_host_encryption = false
+  enable_node_public_ip  = false
+  max_pods               = 110
+  os_disk_size_gb        = 60
+  os_disk_type           = "Ephemeral" # Managed
+  # node_labels = 
+  # node_taints = 
+  # tags = 
+  enable_auto_scaling = true
+  min_count           = 1
+  max_count           = 2
+  # subnet_id = 
+  upgrade_settings {
+    max_surge = 1
+  }
+
+  tags = {
+    Environment = "Production"
+  }
 }
