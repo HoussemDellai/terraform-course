@@ -1,10 +1,10 @@
 variable "resource_group_name" {
-  default     = "rg-aks-appgw-07"
+  default     = "rg-aks-appgw"
   description = "Name of the resource group."
 }
 
 variable "node_resource_group" {
-  default = "rg-aks-appgw-07-managed"
+  default = "rg-aks-appgw-managed"
 }
 
 variable "resource_group_location" {
