@@ -2,15 +2,13 @@ name: 'Create Infra with Terraform'
 
 on:
   push:
-    branches: none
-    # - main
-  pull_request: 
-    branches: none
-    # - main
-    
+    branches: [ main ]
+    paths: .github/workflows/terraform-devops.yml
+  pull_request:
+    branches:  none # [ main ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+  
 env:
   STORAGE_ACCOUNT_NAME: storagetfstate013
   RESOURCE_GROUP_NAME: rg-terraform-state
