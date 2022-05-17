@@ -20,8 +20,8 @@ resource "azurerm_linux_web_app" "app" {
   service_plan_id     = azurerm_service_plan.plan.id
 
   site_config {
-    # application_stack {
-    #   dotnet_version = "6.0" # 3.1, 5.0, 6.0
-    # }
+    application_stack {
+      dotnet_version = "6.0" # 3.1, 5.0, 6.0
+    }
   }
 }
