@@ -64,7 +64,7 @@ cat terraform.tfstate
 
 ## 2- Updating Terraform configuration
 
-Comment the deprecated resources in main.tf and uncomment the new ones.
+Comment the deprecated resources in `deprecated.tf` and uncomment the new resources in `new.tf`.
 
 ## 3- Importing the new resource into the state
 
