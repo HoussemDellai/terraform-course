@@ -25,4 +25,5 @@ terraform import azurerm_storage_account.storage '/subscriptions/$SUBSCRIPTION_I
 # plan and preview terraform changes
 terraform plan
 
+# cleanup created resources
 az group delete -g myResourceGroup

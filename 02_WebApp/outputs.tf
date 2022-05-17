@@ -1,7 +1,7 @@
-output "webapp_url" {
-    value = azurerm_app_service.example.default_site_hostname
-}
+# output "webapp_url" {
+#   value = azurerm_linux_web_app.webapp.default_hostname
+# }
 
-output "webapp_ips" {
-    value = azurerm_app_service.example.outbound_ip_addresses
-}
+# output "webapp_ips" {
+#   value = azurerm_linux_web_app.webapp.outbound_ip_addresses
+# }
