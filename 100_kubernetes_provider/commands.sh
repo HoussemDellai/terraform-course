@@ -28,7 +28,7 @@ az aks get-credentials --name aks-cluster --resource-group rg_aks_terraform --ov
 # cluster authN & authZ is needed, so this won't work
 kubectl get nodes
 
-# connect with Azure CLI identity
+# connect with kubelogin and Azure CLI identity
 kubelogin convert-kubeconfig -l azurecli
 
 # now this works after auth using kubelogin
