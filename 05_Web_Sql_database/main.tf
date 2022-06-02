@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-resource "azurerm_service_plan" "app_plan" {
+resource "azurerm_service_plan" "plan" {
   name                = var.app_service_plan_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
@@ -15,15 +15,16 @@ resource "azurerm_service_plan" "app_plan" {
   os_type             = "Linux"
 }
 
-resource "azurerm_app_service" "webapp" {
-  name                = var.app_service_name
-  location            = azurerm_resource_group.rg.location
+resource "azurerm_linux_web_app" "app" {
+  name                = "mywebapp-01357"
   resource_group_name = azurerm_resource_group.rg.name
-  app_service_plan_id = azurerm_service_plan.app_plan.id
+  location            = azurerm_service_plan.plan.location
+  service_plan_id     = azurerm_service_plan.plan.id
 
   site_config {
-    dotnet_framework_version = "v4.0"
-    scm_type                 = "LocalGit"
+    application_stack {
+      dotnet_version = "6.0"
+    }
   }
 
   app_settings = {
@@ -33,11 +34,11 @@ resource "azurerm_app_service" "webapp" {
   connection_string {
     name  = "Database"
     type  = "SQLAzure"
-    value = "Server=tcp:azurerm_sql_server.sqldb.fully_qualified_domain_name Database=azurerm_sql_database.db.name;User ID=azurerm_sql_server.sqldb.administrator_login;Password=azurerm_sql_server.sqldb.administrator_login_password;Trusted_Connection=False;Encrypt=True;"
+    value = "Server=tcp:azurerm_mssql_server.sql.fully_qualified_domain_name Database=azurerm_mssql_database.db.name;User ID=azurerm_mssql_server.sql.administrator_login;Password=azurerm_mssql_server.sql.administrator_login_password;Trusted_Connection=False;Encrypt=True;"
   }
 }
 
-resource "azurerm_sql_server" "sqldb" {
+resource "azurerm_mssql_server" "sql" {
   name                         = var.sql_server_name
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
@@ -46,9 +47,27 @@ resource "azurerm_sql_server" "sqldb" {
   administrator_login_password = var.sql_admin_password
 }
 
-resource "azurerm_sql_database" "db" {
-  name                = "terraform-sqldatabase20"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  server_name         = azurerm_sql_server.sqldb.name
+resource "azurerm_mssql_database" "db" {
+  name           = "ProductsDB"
+  server_id      = azurerm_mssql_server.sql.id
+  collation      = "SQL_Latin1_General_CP1_CI_AS"
+  license_type   = "LicenseIncluded"
+  sku_name       = "S0"
+  zone_redundant = false
+}
+
+resource "azurerm_storage_account" "storage" {
+  name                     = "tfstorage013"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_mssql_database_extended_auditing_policy" "policy" {
+  database_id                             = azurerm_mssql_database.db.id
+  storage_endpoint                        = azurerm_storage_account.storage.primary_blob_endpoint
+  storage_account_access_key              = azurerm_storage_account.storage.primary_access_key
+  storage_account_access_key_is_secondary = false
+  retention_in_days                       = 1
 }

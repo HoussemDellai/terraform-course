@@ -1,3 +1,5 @@
+# Generate Terraform configuration and state from existing Azure resources
+
 # Install Azure Terrafy
 go install github.com/Azure/aztfy@latest
 

@@ -1,0 +1,7 @@
+{
+	"/subscriptions/4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3/resourceGroups/rg-terraform-web-sql-db": "azurerm_resource_group.res-54",
+	"/subscriptions/4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3/resourceGroups/rg-terraform-web-sql-db/providers/Microsoft.Sql/servers/terraform-sqlserver-021/databases/ProductsDB": "azurerm_sql_database.res-12",
+	"/subscriptions/4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3/resourceGroups/rg-terraform-web-sql-db/providers/Microsoft.Sql/servers/terraform-sqlserver-021/vulnerabilityAssessments/Default": "azurerm_mssql_server_vulnerability_assessment.res-27",
+	"/subscriptions/4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3/resourceGroups/rg-terraform-web-sql-db/providers/Microsoft.Web/serverfarms/appserviceplan-web-21": "azurerm_app_service_plan.res-2",
+	"/subscriptions/4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3/resourceGroups/rg-terraform-web-sql-db/providers/Microsoft.Web/sites/mywebapp-01357/hostNameBindings/mywebapp-01357.azurewebsites.net": "azurerm_app_service_custom_hostname_binding.res-36"
+}

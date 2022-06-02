@@ -60,7 +60,7 @@ cat terraform.tfstate
 # 3- importing the new resource into the state
 
 # import the new resource type into terraform state
-terraform import azurerm_app_service_plan.plan $APP_SERVICE_PLAN_RESOURCE_ID
+terraform import azurerm_service_plan.plan $APP_SERVICE_PLAN_RESOURCE_ID
 
 terraform import azurerm_linux_web_app.app $APP_SERVICE_RESOURCE_ID
 
