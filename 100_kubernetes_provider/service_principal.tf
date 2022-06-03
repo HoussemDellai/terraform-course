@@ -11,7 +11,7 @@ resource "azuread_service_principal_password" "spn_password" {
 }
 
 resource "azuread_group" "aks_admins" {
-  display_name     = "group_aks_admins"
+  display_name     = var.aad_group_aks_admins
   security_enabled = true
   owners           = [data.azuread_client_config.current.object_id]
 

@@ -32,3 +32,8 @@ variable "kube_namespace" {
   type        = string
   description = "Name of Kubernetes Namespace"
 }
+
+variable "aad_group_aks_admins" {
+  type        = string
+  description = "Name of AAD group for AKS admins"
+}

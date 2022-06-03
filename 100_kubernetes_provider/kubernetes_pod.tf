@@ -2,7 +2,7 @@
 resource "kubernetes_pod_v1" "pod_nginx" {
   metadata {
     name      = "pod-nginx"
-    namespace = var.kube_namespace
+    namespace = kubernetes_namespace_v1.ns.metadata.0.name
   }
 
   spec {
@@ -35,6 +35,4 @@ resource "kubernetes_pod_v1" "pod_nginx" {
       }
     }
   }
-
-  depends_on = [kubernetes_namespace_v1.ns]
 }

@@ -2,6 +2,8 @@
 resource "kubernetes_namespace_v1" "ns" {
 
   metadata {
+    name = var.kube_namespace
+
     annotations = {
       name = "sample-annotation"
     }
@@ -9,7 +11,5 @@ resource "kubernetes_namespace_v1" "ns" {
     labels = {
       tier = "frontend"
     }
-
-    name = var.kube_namespace
   }
 }

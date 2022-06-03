@@ -2,7 +2,8 @@
 resource "kubernetes_deployment_v1" "deploy" {
   metadata {
     name      = "deploy-nginx"
-    namespace = var.kube_namespace
+    namespace = kubernetes_namespace_v1.ns.metadata.0.name
+
     labels = {
       tier = "frontend"
     }
@@ -58,6 +59,4 @@ resource "kubernetes_deployment_v1" "deploy" {
       }
     }
   }
-
-  depends_on = [kubernetes_namespace_v1.ns]
 }

@@ -46,6 +46,13 @@ kubectl get ns
 # kube-public       Active   8m58s
 # kube-system       Active   8m58s
 
+kubectl get pods -n frontend-app-namespace
+# NAME                           READY   STATUS    RESTARTS   AGE
+# deploy-nginx-885db74d7-7zb67   1/1     Running   0          6h32m
+# deploy-nginx-885db74d7-kc798   1/1     Running   0          6h32m
+# deploy-nginx-885db74d7-m4xv9   1/1     Running   0          6h32m
+# pod-nginx                      1/1     Running   0          6h32m
+
 # delete the infra
 terraform destroy
 
