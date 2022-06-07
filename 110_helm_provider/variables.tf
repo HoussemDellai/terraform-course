@@ -32,3 +32,18 @@ variable "aad_group_aks_admins" {
   type        = string
   description = "Name of AAD group for AKS admins"
 }
+
+variable "grafana_admin_user" {
+  type        = string
+  description = "Admin user to access Grafana dashboard"
+}
+
+variable "grafana_admin_password" {
+  type        = string
+  description = "Admin password to access Grafana dashboard"
+}
+
+variable "harbor_admin_password" {
+  type        = string
+  description = "Admin password to access Harbor dashboard"
+}

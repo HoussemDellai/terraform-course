@@ -1,6 +1,6 @@
 resource "kubernetes_service_v1" "svc" {
   metadata {
-    name = "frontend-svc"
+    name      = "frontend-svc"
     namespace = kubernetes_namespace_v1.ns.metadata.0.name
   }
   spec {

@@ -23,7 +23,7 @@ terraform apply tfplan
 terraform state list
 
 # connect to AKS cluster
-az aks get-credentials --name aks-cluster --resource-group rg_aks_terraform --overwrite-existing
+az aks get-credentials --name aks-cluster --resource-group rg_aks_terraform_helm --overwrite-existing
 
 # cluster authN & authZ is needed, so this won't work
 kubectl get nodes
@@ -46,12 +46,30 @@ kubectl get ns
 # kube-public       Active   8m58s
 # kube-system       Active   8m58s
 
-kubectl get pods -n frontend-app-namespace
-# NAME                           READY   STATUS    RESTARTS   AGE
-# deploy-nginx-885db74d7-7zb67   1/1     Running   0          6h32m
-# deploy-nginx-885db74d7-kc798   1/1     Running   0          6h32m
-# deploy-nginx-885db74d7-m4xv9   1/1     Running   0          6h32m
-# pod-nginx                      1/1     Running   0          6h32m
+kubectl get deploy -A
+
+# note about Azure Kubernetes Service AAD Server
+az ad sp show --id 6dae42f8-4368-4678-94ff-3960e28e3630
+# {
+#   "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+#   "accountEnabled": true,
+#   "addIns": [],
+#   "alternativeNames": [],
+#   "appDescription": null,
+#   "appDisplayName": "Azure Kubernetes Service AAD Server",
+#   "appId": "6dae42f8-4368-4678-94ff-3960e28e3630",
+#   "appOwnerOrganizationId": "f8cdef31-a31e-4b4a-93e4-5f571e91255a",
+#   "appRoleAssignmentRequired": false,
+#   "appRoles": [],
+#   "applicationTemplateId": null,
+#   "createdDateTime": "2021-04-23T14:33:46Z",
+#   "deletedDateTime": null,
+#   "description": null,
+#   "disabledByMicrosoftStatus": null,
+#   "displayName": "Azure Kubernetes Service AAD Server",
+#   "homepage": null,
+#   "id": "5dc776ad-9525-4afd-ad24-334e21ad710e",
+
 
 # delete the infra
 terraform destroy

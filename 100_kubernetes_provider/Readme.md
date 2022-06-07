@@ -1,3 +1,9 @@
+## Using Kubernetes provider to connect to RBAC enabled AKS cluster
+
+### Introduction
+This demo shows how to use Terraform Kubernetes provider to connect to RBAC enabled AKS cluster.
+The authentication is done 
+
 ```bash
 # connect to Azure subscription
 az login
@@ -84,6 +90,30 @@ kubectl get pods -n frontend-app-namespace
 # deploy-nginx-885db74d7-kc798   1/1     Running   0          6h32m
 # deploy-nginx-885db74d7-m4xv9   1/1     Running   0          6h32m
 # pod-nginx                      1/1     Running   0          6h32m
+```
+
+```bash
+# note about Azure Kubernetes Service AAD Server
+az ad sp show --id 6dae42f8-4368-4678-94ff-3960e28e3630
+# {
+#   "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity",
+#   "accountEnabled": true,
+#   "addIns": [],
+#   "alternativeNames": [],
+#   "appDescription": null,
+#   "appDisplayName": "Azure Kubernetes Service AAD Server",
+#   "appId": "6dae42f8-4368-4678-94ff-3960e28e3630",
+#   "appOwnerOrganizationId": "f8cdef31-a31e-4b4a-93e4-5f571e91255a",
+#   "appRoleAssignmentRequired": false,
+#   "appRoles": [],
+#   "applicationTemplateId": null,
+#   "createdDateTime": "2021-04-23T14:33:46Z",
+#   "deletedDateTime": null,
+#   "description": null,
+#   "disabledByMicrosoftStatus": null,
+#   "displayName": "Azure Kubernetes Service AAD Server",
+#   "homepage": null,
+#   "id": "5dc776ad-9525-4afd-ad24-334e21ad710e",
 ```
 
 ```bash

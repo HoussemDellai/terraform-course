@@ -33,7 +33,7 @@ provider "helm" {
         "--environment",
         "AzurePublicCloud",
         "--server-id",
-        "6dae42f8-4368-4678-94ff-3960e28e3630", # Note: The AAD server app ID of AKS Managed AAD is always 6dae42f8-4368-4678-94ff-3960e28e3630 in any environments.
+        data.azuread_service_principal.aks_aad_server.application_id, # Note: The AAD server app ID of AKS Managed AAD is always 6dae42f8-4368-4678-94ff-3960e28e3630 in any environments.
         "--client-id",
         azuread_application.app.application_id, # SPN App Id created via terraform
         "--client-secret",
