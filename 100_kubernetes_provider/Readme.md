@@ -4,6 +4,10 @@
 This demo shows how to use Terraform Kubernetes provider to connect to RBAC enabled AKS cluster.
 The authentication is done 
 
+### Install CLI tools
+The following CLI tools should be installed: Terraform CLI, Azure CLI, Kubernetes CLI and Kubelogin CLI.
+Make sure you also have the required access rights to create an Azure AD Group and Service Principal. 
+
 ```bash
 # connect to Azure subscription
 az login
