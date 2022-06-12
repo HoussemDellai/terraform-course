@@ -3,14 +3,14 @@ provider "azurerm" {
 }
 
 terraform {
-  required_version = ">= 1.2.1"
+  required_version = ">= 1.2.2"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.8.0"
+      version = ">= 3.10.0"
     }
     azuread = {
-      version = ">= 2.22.0"
+      version = ">= 2.23.0"
     }
     kubernetes = {
       version = ">= 2.11.0"
