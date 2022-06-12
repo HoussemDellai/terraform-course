@@ -20,7 +20,7 @@ terraform fmt
 ```
 
 ```bash
-# initialize terraform Azure modules
+# initialize Azure terraform modules
 terraform init
 ```
 
