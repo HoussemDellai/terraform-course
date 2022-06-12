@@ -208,16 +208,16 @@ resource "helm_release" "harbor" {
 
   set {
     name  = "expose.type"
-    value = "loadBalancer" # "ingress"
+    value = "ingress"
   }
-  # set {
-  #   name = "harborAdminPassword"
-  #   value = var.harbor_admin_password
-  # }
-  # set {
-  #   name = "ingress.core.ingressClassName"
-  #   value ="nginx"
-  # }
+  set {
+    name = "harborAdminPassword"
+    value = var.harbor_admin_password
+  }
+  set {
+    name = "expose.ingress.className"
+    value ="nginx"
+  }
   set {
     name = "trace.enabled"
     value = "true"

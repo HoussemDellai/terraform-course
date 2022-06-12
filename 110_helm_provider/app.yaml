@@ -150,7 +150,7 @@ metadata:
   name: grafana
   namespace: monitoring
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true" # "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     # kubernetes.io/ingress.class: "nginx"
@@ -180,3 +180,25 @@ spec:
       #       name: prometheus-stack-grafana
       #       port:
       #         number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: nginx
+            port:
+              number: 80
+        path: /nginx # (/|$)(.*)
+        pathType: Prefix # Exact

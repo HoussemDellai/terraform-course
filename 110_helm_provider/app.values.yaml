@@ -1,0 +1,17 @@
+grafana.ini:
+  server:
+    domain: grafana.20.126.176.173.nip.io
+    root_url: "http://grafana.20.126.176.173.nip.io/grafana/"
+    # root_url: "%(protocol)s://%(domain)s/my-grafana"
+    serve_from_sub_path: true
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hosts: # {}
+    - grafana.20.126.176.173.nip.io
+    # - "monitoring.example.com"
+  path: /grafana/ # "/my-grafana"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
