@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 terraform {
   required_version = ">= 1.2.2"
   required_providers {
@@ -16,6 +12,10 @@ terraform {
       version = ">= 2.11.0"
     }
   }
+}
+
+provider "azurerm" {
+  features {}
 }
 
 provider "kubernetes" {

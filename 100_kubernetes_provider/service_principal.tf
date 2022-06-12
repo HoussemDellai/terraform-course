@@ -2,6 +2,7 @@ resource "azuread_application" "app" {
   display_name = var.spn_name
 }
 
+# https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal
 resource "azuread_service_principal" "spn" {
   application_id = azuread_application.app.application_id
 }
