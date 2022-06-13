@@ -32,19 +32,6 @@ resource "helm_release" "nginx_ingress_controller" {
   }
 }
 
-# resource "helm_release" "nginx_ingress" {
-#   name             = "nginx-ingress-controller"
-#   repository       = "https://charts.bitnami.com/bitnami"
-#   chart            = "nginx-ingress-controller"
-#   namespace        = "nginx-ingress"
-#   create_namespace = true
-
-#   set {
-#     name  = "service.type"
-#     value = "LoadBalancer"
-#   }
-# }
-
 # https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 resource "helm_release" "prometheus_stack" {
   name             = "prometheus-stack"
@@ -52,10 +39,6 @@ resource "helm_release" "prometheus_stack" {
   chart            = "kube-prometheus-stack"
   namespace        = "monitoring"
   create_namespace = true
-
-  provisioner "local-exec" {
-    command = "kubectl describe ingress prometheus-stack-grafana -n monitoring >> ingress.txt"
-  }
 
   set {
     name  = "grafana.ingress.enabled"
@@ -95,34 +78,6 @@ resource "helm_release" "prometheus_stack" {
     name  = "grafana.adminPassword"
     value = var.grafana_admin_password
   }
-
-
-  # set {
-  #   name  = "prometheus.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/ssl-redirect"
-  #   value = "false"
-  #   type  = "string"
-  # }
-  # set {
-  #   name  = "prometheus.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/use-regex"
-  #   value = "true"
-  #   type  = "string"
-  # }
-  # set {
-  #   name  = "prometheus.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/rewrite-target"
-  #   value = "/$1"
-  # }
-  # set {
-  #   name  = "prometheus.ingress.enabled"
-  #   value = "true"
-  # }
-  # set {
-  #   name  = "prometheus.ingress.ingressClassName"
-  #   value = "nginx"
-  # }
-  # set {
-  #   name  = "prometheus.ingress.paths"
-  #   value = "{/prometheus/?(.*)}"
-  # }
 }
 
 resource "helm_release" "argo_cd" {
@@ -151,10 +106,6 @@ resource "helm_release" "argo_cd" {
     name  = "server.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/rewrite-target"
     value = "/$1"
   }
-  # set {
-  #   name = "server.ingress.annotations"
-  #   value = "{nginx.ingress.kubernetes.io/ssl-redirect: "false",nginx.ingress.kubernetes.io/use-regex: "true",nginx.ingress.kubernetes.io/rewrite-target: /$1}"
-  # }
   set {
     name  = "server.ingress.enabled"
     value = "true"
@@ -175,26 +126,7 @@ resource "helm_release" "argo_cd" {
     name  = "server.ingress.paths"
     value = "{/argocd(.*)}" # "[\"/argocd\"]"
   }
-  # set {
-  #   name  = "server.service.type"
-  #   value = "LoadBalancer"
-  # }
 }
-
-# resource "helm_release" "argo_cd" {
-#   name             = "argo"
-#   repository       = "https://charts.bitnami.com/bitnami"
-#   chart            = "argo-cd"
-#   version          = "3.3.8"
-#   namespace        = "gitops"
-#   create_namespace = true
-
-#   set {
-#     name  = "server.service.type"
-#     value = "LoadBalancer"
-#   }
-# }
-
 
 # https://github.com/goharbor/harbor-helm
 resource "helm_release" "harbor" {
@@ -204,7 +136,6 @@ resource "helm_release" "harbor" {
   # version          = "1.4.0-dev"
   namespace        = "harbor"
   create_namespace = true
-
 
   set {
     name  = "expose.type"
@@ -243,53 +174,6 @@ resource "helm_release" "harbor" {
     value ="true"
   }
 }
-
-# # https://github.com/bitnami/charts/tree/master/bitnami/harbor
-# resource "helm_release" "harbor" {
-#   name             = "harbor"
-#   repository       = "https://charts.bitnami.com/bitnami"
-#   chart            = "harbor"
-#   version          = "13.2.4"
-#   namespace        = "harbor"
-#   create_namespace = true
-
-#   set {
-#     name = "adminPassword"
-#     value = var.harbor_admin_password
-#   }
-#   set {
-#     name = "exposureType"
-#     value = "ingress"
-#   }
-#   set {
-#     name = "ingress.core.ingressClassName"
-#     value ="nginx"
-#   }
-#   set {
-#     name = "persistence.enabled"
-#     value ="true"
-#   }
-#   set {
-#     name = "clair.enabled"
-#     value ="true"
-#   }
-#   set {
-#     name = "notary.enabled"
-#     value ="true"
-#   }
-#   set {
-#     name = "trivy.enabled"
-#     value ="true"
-#   }
-#   set {
-#     name = "notary.enabled"
-#     value ="true"
-#   }
-#   set {
-#     name  = "ingress.core.hostname"
-#     value = ""
-#   }
-# }
 
 resource "helm_release" "redis" {
   name             = "redis"
