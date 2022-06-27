@@ -120,18 +120,17 @@ resource "azurerm_resource_group" "demo07_rg" {
 
 locals {
   subnets = [{
-      subnet_name           = "subnet1"
-      subnet_address_prefix = "10.0.1.0/24"
+    subnet_name           = "subnet1"
+    subnet_address_prefix = "10.0.1.0/24"
     },
     {
       subnet_name           = "subnet2"
       subnet_address_prefix = "10.0.2.0/24"
     },
-    ,
     {
       subnet_name           = "subnet3"
       subnet_address_prefix = "10.0.3.0/24"
-    }]
+  }]
 }
 resource "azurerm_virtual_network" "vnet" {
   name                = "example-network"
@@ -161,4 +160,58 @@ resource "azurerm_subnet" "subnet" {
   resource_group_name  = azurerm_resource_group.demo07_rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
+}
+
+#------------------------------------------------------
+# enable or disable resources
+#------------------------------------------------------
+
+variable "resource_enabled" {
+  type        = bool
+  default     = true
+  description = "Enable or disable creation of Resource Group"
+}
+
+# resource "azurerm_resource_group" "rg_tf_enabled_resource" {
+#   enabled  = var.resource_enabled # this attribute doesn't exist
+#   name     = "rg_tf_enabled_resource"
+#   location = "westeurope"
+# }
+
+resource "azurerm_resource_group" "rg_tf_enabled_resource_for_each" {
+  for_each = var.resource_enabled ? toset(["any_value"]) : toset([])
+  name     = "rg_tf_enabled_resource"
+  location = "westeurope"
+}
+
+output "rg_id_for_each" {
+  value = var.resource_enabled ? azurerm_resource_group.rg_tf_enabled_resource_for_each["any_value"].id : null
+}
+
+resource "azurerm_resource_group" "rg_tf_enabled_resource_count" {
+  count    = var.resource_enabled ? 1 : 0
+  name     = "rg_tf_enabled_resource"
+  location = "westeurope"
+}
+
+output "rg_id_count" {
+  value = var.resource_enabled ? azurerm_resource_group.rg_tf_enabled_resource_count.0.id : null
+}
+
+resource "azurerm_storage_account" "storage_tf_enabled_resource_for_inner_block" {
+  name                     = "storage091"
+  resource_group_name      = azurerm_resource_group.rg_tf_enabled_resource_for_each["any_value"].name
+  location                 = "westeurope"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  dynamic "network_rules" {
+    for_each = var.resource_enabled ? ["any_value"] : []
+    # count = var.resource_enabled ? 1 : 0 # count couldn't be used inside nested block
+    content {
+      default_action             = "Deny"
+      ip_rules                   = ["100.0.0.1"]
+      # virtual_network_subnet_ids = [azurerm_subnet.example.id]
+    }
+  }
 }
