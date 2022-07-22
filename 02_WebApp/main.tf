@@ -21,7 +21,7 @@ resource "azurerm_linux_web_app" "app" {
     # dotnet_framework_version = "v4.0" # deprecated
     always_on = false
     application_stack {
-      dotnet_version = "v6.0" # "v3.0", "v4.0", "5.0", "v6.0"
+      dotnet_version = "6.0" # "v3.0", "v4.0", "5.0", "v6.0"
     }
   }
 
