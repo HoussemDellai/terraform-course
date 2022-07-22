@@ -25,7 +25,8 @@ terraform show -json tfplan >> tfplan.json
 terraform show -json tfplan | jq '.' | jq -r '(.resource_changes[] | [.change.actions[], .type, .change.after.name]) | @tsv'
 
 # show only the changes to the specific targeted resources
-terraform plan -out tfplan -target azurerm_resource_group.rg_tf_enabled_resource_for_each -target azurerm_resource_group.rg_tf_enabled_resource_count
+terraform plan -out tfplan -target azurerm_resource_group.rg_tf_enabled_resource_for_each -target azurerm_resource_group.rg_tf_enabled_resource_count 
+terraform plan -out tfplan -target azurerm_storage_account.storage_tf_enabled_resource_for_inner_block
 
 # apply the infra changes
 terraform apply tfplan

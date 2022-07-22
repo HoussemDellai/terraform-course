@@ -168,7 +168,7 @@ resource "azurerm_subnet" "subnet" {
 
 variable "resource_enabled" {
   type        = bool
-  default     = true
+  default     = true # false # 
   description = "Enable or disable creation of Resource Group"
 }
 
@@ -198,6 +198,10 @@ output "rg_id_count" {
   value = var.resource_enabled ? azurerm_resource_group.rg_tf_enabled_resource_count.0.id : null
 }
 
+#------------------------------------------------------
+# enable or disable nested blocks
+#------------------------------------------------------
+
 resource "azurerm_storage_account" "storage_tf_enabled_resource_for_inner_block" {
   name                     = "storage091"
   resource_group_name      = azurerm_resource_group.rg_tf_enabled_resource_for_each["any_value"].name
@@ -211,7 +215,6 @@ resource "azurerm_storage_account" "storage_tf_enabled_resource_for_inner_block"
     content {
       default_action             = "Deny"
       ip_rules                   = ["100.0.0.1"]
-      # virtual_network_subnet_ids = [azurerm_subnet.example.id]
     }
   }
 }
