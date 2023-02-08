@@ -1,5 +1,9 @@
 ## Terraform count vs for_each
 
+
+<img src="images/arch.png">
+
+
 Make sure terraform CLI is installed
 ```bash
 terraform
