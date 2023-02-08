@@ -1,8 +1,14 @@
-# make sure terraform CLI is installed
-terraform
+## Terraform count vs for_each
 
-# initialize terraform Azure modules
+Make sure terraform CLI is installed
+```bash
+terraform
+```
+
+Initialize terraform Azure modules
+```bash
 terraform init
+```
 
 Plan and save the infra changes into tfplan file
 
