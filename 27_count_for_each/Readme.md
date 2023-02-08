@@ -161,8 +161,10 @@ vnet-c-1 and vnet-f-1 will be destroyed, that ius expected
 however, vnet-c-2 will be also deleted and recreated, that is not expected !
 The learning here is that count will try to always start with zero index and will not try to preserve the existing resources.
 
-# delete the infra
+Delete the infra
+```bash
 terraform destroy
+```
 
 More resources:
 Terraform count doc:  
