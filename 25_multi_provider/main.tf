@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "vnet_hub" {
 }
 
 resource "azurerm_virtual_network" "vnet_spoke" {
-  provider = azurerm.subscription_spoke
+  provider            = azurerm.subscription_spoke
   name                = "vnet_spoke"
   resource_group_name = azurerm_resource_group.rg_spoke.name
   location            = "northeurope"

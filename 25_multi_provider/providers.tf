@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.26.0"
+      version = "= 3.43.0"
     }
 
     # azuread = {
@@ -15,8 +15,8 @@ terraform {
 
 provider "azurerm" {
   alias           = "subscription_hub"
-  subscription_id = "4b72ed90-7ca3-4e76-8d0f-31a2c0bee7a3"
-  tenant_id       = "72f988bf-86f1-41af-91ab-2d7cd011db47"
+  subscription_id = "82f6d75e-85f4-434a-ab74-5dddd9fa8910"
+  tenant_id       = "16b3c013-d300-468d-ac64-7eda0820b6d3"
   # client_id       = "a0d7fbe0-dca2-4848-b6ac-ad15e2c31840"
   # client_secret   = "BAFHTR3235FEHsdfb%#$W%weF#@a"
   # auxiliary_tenant_ids = ["558506eb-9459-4ef3-b920-ad55c555e729"]
@@ -25,7 +25,7 @@ provider "azurerm" {
 
 provider "azurerm" {
   alias           = "subscription_spoke"
-  subscription_id = "59d574d4-1c03-4092-ab22-312ed594eec9"
+  subscription_id = "17b12858-3960-4e6f-a663-a06fdae23428"
   tenant_id       = "558506eb-9459-4ef3-b920-ad55c555e729"
   # client_id       = "a0d7fbe0-xxxxxxxxxxxxxxxxxxxxx"
   # client_secret   = "BAFHTxxxxxxxxxxxxxxxxxxxxxxxxx"
