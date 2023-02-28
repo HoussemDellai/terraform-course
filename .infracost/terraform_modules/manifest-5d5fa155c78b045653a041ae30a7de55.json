@@ -1,0 +1,1 @@
+{"Path":"d:\\Projects\\terraform-course\\30_modules_vnet","Version":"2.0","Modules":[{"Key":"vnet","Source":"./modules/vnet","Dir":"30_modules_vnet\\modules\\vnet"}]}
