@@ -1,0 +1,59 @@
+{
+    "address1": {
+        "value": "90 avenue des Champs Elysees",
+        "required": true
+    },
+    "address2": {
+        "value": "",
+        "required": false
+    },
+    "city": {
+        "value": "Paris",
+        "required": true
+    },
+    "country": {
+        "value": "FR",
+        "required": true,
+        "options": []   
+    },
+    "postal_code": {
+        "value": "75008",
+        "required": true  
+    },
+    "state": {
+        "value": "Ile de France",
+        "required": true
+    },
+    "email": {
+        "value": "houssem.dellai@email.com",
+        "required": true  
+    },
+    "fax": {
+        "value": "",
+        "required": false   
+    },
+    "job_title": {
+        "value": "",
+        "required": false  
+    },
+    "name_first": {
+        "value": "Houssem",
+        "required": true  
+    },
+    "name_last": {
+        "value": "Dellai",
+        "required": true  
+    },
+    "name_middle": {
+        "value": "",
+        "required": false
+    },
+    "organization": {
+        "value": "",
+        "required": false
+    },
+    "phone": {
+        "value": "+33.762954328",
+        "required": true   
+    }
+}
