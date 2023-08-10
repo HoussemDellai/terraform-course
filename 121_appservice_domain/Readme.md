@@ -74,3 +74,7 @@ az appservice domain create `
 
 You should use a Pay-As-You-Go azure subcription to be able to create Azure App Service Domain.
 MSDN/VisualStudio and Free Azure subscriptions doesn't work.
+
+## What is next ?
+
+You can explore App Service Domain with Azure Container Apps (ACA) in this lab: https://github.com/HoussemDellai/aca-course/tree/main/14_aca_custom_domain.
