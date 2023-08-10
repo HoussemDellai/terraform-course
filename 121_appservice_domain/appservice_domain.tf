@@ -1,45 +1,32 @@
-# resource group
+# Resource Group
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-dns-demo12"
-  location = "westeurope"
+  name     = var.rg_name
+  location = var.location
 }
 
-# {
-#     "id": "/subscriptions/82f6d75e-85f4-434a-ab74-5dddd9fa8910/resourceGroups/rg-dns/providers/Microsoft.DomainRegistration/domains/houssemd.com",
-#     "name": "houssemd.com",
-#     "type": "Microsoft.DomainRegistration/domains",
-#     "location": "global",
-#     "tags": {},
-#     "properties": {
-#         "registrationStatus": "Active",
-#         "provisioningState": "Succeeded",
-#         "nameServers": [
-#             "ns1-37.azure-dns.com",
-#             "ns2-37.azure-dns.net",
-#             "ns3-37.azure-dns.org",
-#             "ns4-37.azure-dns.info"
-#         ],
-#         "privacy": true,
-#         "createdTime": "2023-03-10T14:18:13",
-#         "expirationTime": "2024-03-10T14:18:13",
-#         "autoRenew": true,
-#         "readyForDnsRecordManagement": true,
-#         "managedHostNames": [],
-#         "domainNotRenewableReasons": [
-#             "ExpirationNotInRenewalTimeRange"
-#         ],
-#         "dnsType": "AzureDns",
-#         "dnsZoneId": "/subscriptions/82f6d75e-85f4-434a-ab74-5dddd9fa8910/resourcegroups/rg-dns/providers/Microsoft.Network/dnszones/houssemd.com"
-#     }
-# }
+# DNS Zone to configure the domain name
+resource "azurerm_dns_zone" "dns_zone" {
+  name                = var.domain_name
+  resource_group_name = azurerm_resource_group.rg.name
+}
 
+# DNS Zone A record
+resource "azurerm_dns_a_record" "dns_a_record" {
+  name                = "test"
+  zone_name           = azurerm_dns_zone.dns_zone.name
+  resource_group_name = azurerm_resource_group.rg.name
+  ttl                 = 300
+  records             = ["1.2.3.4"] # just example IP address
+}
+
+# App Service Domain
+# REST API reference: https://docs.microsoft.com/en-us/rest/api/appservice/domains/createorupdate
 resource "azapi_resource" "appservice_domain" {
-  type                      = "Microsoft.DomainRegistration/domains@2022-03-01"
-  # type                      = "Microsoft.DomainRegistration/domains@2022-09-01"
-  name                      = "houssem12.com"
+  type                      = "Microsoft.DomainRegistration/domains@2022-09-01"
+  name                      = var.domain_name
   parent_id                 = azurerm_resource_group.rg.id
-  location                  = "global" # azurerm_resource_group.rg.location # global
-  schema_validation_enabled = false
+  location                  = "global"
+  schema_validation_enabled = true
 
   body = jsonencode({
 
@@ -51,80 +38,84 @@ resource "azapi_resource" "appservice_domain" {
 
       consent = {
         agreementKeys = ["DNRA"]
-        agreedBy = "2a04:cec0:11d9:24c8:8898:3820:8631:d83" # IPv6
-        agreedAt = "2023-08-10T11:50:59.264Z"
+        agreedBy      = var.AgreedBy_IP_v6 # "2a04:cec0:11d9:24c8:8898:3820:8631:d83"
+        agreedAt      = var.AgreedAt_DateTime # "2023-08-10T11:50:59.264Z"
       }
+
       contactAdmin = {
-        nameFirst = "Houssem"
-        nameLast  = "Dellai"
-        email     = "houssem@dell.ai"
-        phone     = "+33.762954328"
+        nameFirst = var.contact.nameFirst
+        nameLast  = var.contact.nameLast
+        email     = var.contact.email
+        phone     = var.contact.phone
+
         addressMailing = {
-          address1   = "1 Microsoft Way"
-          city       = "Redmond"
-          state      = "WA"
-          country    = "US"
-          postalCode = "98052"
+          address1   = var.contact.addressMailing.address1
+          city       = var.contact.addressMailing.city
+          state      = var.contact.addressMailing.state
+          country    = var.contact.addressMailing.country
+          postalCode = var.contact.addressMailing.postalCode
         }
       }
+
       contactRegistrant = {
-        nameFirst = "Houssem"
-        nameLast  = "Dellai"
-        email     = "houssem@dell.ai"
-        phone     = "+33.762954328"
+        nameFirst = var.contact.nameFirst
+        nameLast  = var.contact.nameLast
+        email     = var.contact.email
+        phone     = var.contact.phone
+
         addressMailing = {
-          address1   = "1 Microsoft Way"
-          city       = "Redmond"
-          state      = "WA"
-          country    = "US"
-          postalCode = "98052"
+          address1   = var.contact.addressMailing.address1
+          city       = var.contact.addressMailing.city
+          state      = var.contact.addressMailing.state
+          country    = var.contact.addressMailing.country
+          postalCode = var.contact.addressMailing.postalCode
         }
       }
+
       contactBilling = {
-        nameFirst = "Houssem"
-        nameLast  = "Dellai"
-        email     = "houssem@dell.ai"
-        phone     = "+33.762954328"
+        nameFirst = var.contact.nameFirst
+        nameLast  = var.contact.nameLast
+        email     = var.contact.email
+        phone     = var.contact.phone
+
         addressMailing = {
-          address1   = "1 Microsoft Way"
-          city       = "Redmond"
-          state      = "WA"
-          country    = "US"
-          postalCode = "98052"
+          address1   = var.contact.addressMailing.address1
+          city       = var.contact.addressMailing.city
+          state      = var.contact.addressMailing.state
+          country    = var.contact.addressMailing.country
+          postalCode = var.contact.addressMailing.postalCode
         }
       }
+
       contactRegistrant = {
-        nameFirst = "Houssem"
-        nameLast  = "Dellai"
-        email     = "houssem@dell.ai"
-        phone     = "+33.762954328"
+        nameFirst = var.contact.nameFirst
+        nameLast  = var.contact.nameLast
+        email     = var.contact.email
+        phone     = var.contact.phone
+
         addressMailing = {
-          address1   = "1 Microsoft Way"
-          city       = "Redmond"
-          state      = "WA"
-          country    = "US"
-          postalCode = "98052"
+          address1   = var.contact.addressMailing.address1
+          city       = var.contact.addressMailing.city
+          state      = var.contact.addressMailing.state
+          country    = var.contact.addressMailing.country
+          postalCode = var.contact.addressMailing.postalCode
         }
       }
+
       contactTech = {
-        nameFirst = "Houssem"
-        nameLast  = "Dellai"
-        email     = "houssem@dell.ai"
-        phone     = "+33.762954328"
+        nameFirst = var.contact.nameFirst
+        nameLast  = var.contact.nameLast
+        email     = var.contact.email
+        phone     = var.contact.phone
+
         addressMailing = {
-          address1   = "1 Microsoft Way"
-          city       = "Redmond"
-          state      = "WA"
-          country    = "US"
-          postalCode = "98052"
+          address1   = var.contact.addressMailing.address1
+          city       = var.contact.addressMailing.city
+          state      = var.contact.addressMailing.state
+          country    = var.contact.addressMailing.country
+          postalCode = var.contact.addressMailing.postalCode
         }
       }
     }
   })
-}
-
-# create DNS Zone using azurerm
-resource "azurerm_dns_zone" "dns_zone" {
-  name                = "houssem12.com"
-  resource_group_name = azurerm_resource_group.rg.name
 }
