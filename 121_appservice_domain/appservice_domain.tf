@@ -87,21 +87,6 @@ resource "azapi_resource" "appservice_domain" {
         }
       }
 
-      contactRegistrant = {
-        nameFirst = var.contact.nameFirst
-        nameLast  = var.contact.nameLast
-        email     = var.contact.email
-        phone     = var.contact.phone
-
-        addressMailing = {
-          address1   = var.contact.addressMailing.address1
-          city       = var.contact.addressMailing.city
-          state      = var.contact.addressMailing.state
-          country    = var.contact.addressMailing.country
-          postalCode = var.contact.addressMailing.postalCode
-        }
-      }
-
       contactTech = {
         nameFirst = var.contact.nameFirst
         nameLast  = var.contact.nameLast

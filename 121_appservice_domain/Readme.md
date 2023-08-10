@@ -102,10 +102,17 @@ az appservice domain create `
    --accept-terms
 ```
 
-## Important note
+## Important notes
 
 You should use a Pay-As-You-Go azure subcription to be able to create Azure App Service Domain.
 MSDN/VisualStudio and Free Azure subscriptions doesn't work.
+
+Within the terraform config file, you can change the contact info for the contactAdmin, contactRegistrant, contactBilling and contactTech.
+It worked for me when reusing the same contact !
+
+We didn't create any link between DNS Zone and App Service Domain. 
+How the DNS Zone was linked/bound to the custom domain name ?
+I suppose it is a default Azure configuration, as the two resources are in the same resource group and/or the use the same domain name.
 
 ## What is next ?
 
