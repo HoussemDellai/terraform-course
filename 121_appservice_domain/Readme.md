@@ -23,6 +23,38 @@ We also create an Azure DNS Zone to manage and configure the domain name.
 
 And we create an A record "test" to make sure the configuration works.
 
+The complete Terraform implemntation is in this current folder.
+But here is a
+
+```terraform
+resource "azurerm_dns_zone" "dns_zone" {
+  name                = var.domain_name
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azapi_resource" "appservice_domain" {
+  type                      = "Microsoft.DomainRegistration/domains@2022-09-01"
+  name                      = var.domain_name
+  parent_id                 = azurerm_resource_group.rg.id
+  location                  = "global"
+  schema_validation_enabled = true
+
+  body = jsonencode({
+
+    properties = {
+      autoRenew = false
+      dnsType   = "AzureDns"
+      dnsZoneId = azurerm_dns_zone.dns_zone.id
+      privacy   = false
+
+      consent = {
+        agreementKeys = ["DNRA"]
+        agreedBy      = var.AgreedBy_IP_v6 # "2a04:cec0:11d9:24c8:8898:3820:8631:d83"
+        agreedAt      = var.AgreedAt_DateTime # "2023-08-10T11:50:59.264Z"
+      }
+    <removed for brievity>
+```
+
 ## Deploy the resources using Terraform
 
 Choose the custom domain name you want to purchase in the file `terraform.tfvars`.
