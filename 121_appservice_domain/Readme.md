@@ -14,7 +14,7 @@ However for labs, workshops and demonstrations, this is very useful to make the 
 ## Solution
 
 We'll provide a Terraform implemntation for creating a custom domain name using Azure App Service Domain.
-We'll use `AzApi` provider to create the resource.
+We'll use `AzApi` provider to create the resource. More info about AzApi here: https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/azapi_resource.
 
 The AzApi will call the REST API and pass the required JSON file containing the needed attributes.
 Take a look at the REST API for App Service Domain here: https://learn.microsoft.com/en-us/rest/api/appservice/domains/create-or-update
