@@ -88,7 +88,9 @@ nslookup test.<var.domain_name> # replace with domain name
 ## Creating a custom domain name using Azure CLI
 
 In this lab we used Terraform to create the domain name.
-But still you can just use Azure command line.
+But still you can just use Azure portal or command line.
+
+<img src="images/portal.png">
 
 Make sure you fill the `contact_info.json` file. It is required to create domain name.
 
