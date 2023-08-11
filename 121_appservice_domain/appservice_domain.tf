@@ -23,7 +23,7 @@ resource "azurerm_dns_a_record" "dns_a_record" {
 # REST API reference: https://docs.microsoft.com/en-us/rest/api/appservice/domains/createorupdate
 resource "azapi_resource" "appservice_domain" {
   type                      = "Microsoft.DomainRegistration/domains@2022-09-01"
-  name                      = var.domain_name
+  name                      = "mycompany.com"
   parent_id                 = azurerm_resource_group.rg.id
   location                  = "global"
   schema_validation_enabled = true
