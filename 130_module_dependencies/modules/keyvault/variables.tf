@@ -7,8 +7,3 @@ variable "key_vault_name" {
   description = "Name of the key vault"
   type        = string
 }
-
-variable "location" {
-  description = "Location of the resources"
-  type        = string
-}

@@ -27,7 +27,6 @@ module "storage_account" {
   source               = "./modules/storage_account"
   storage_account_name = "strg1235790"
   resource_group_name  = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
 }
 ```
 
@@ -72,7 +71,6 @@ module "storage_account" {
   source               = "./modules/storage_account"
   storage_account_name = "strg1235790"
   resource_group_name  = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
   depends_on           = [ module.keyvault ] # explicit dependency on entire module
 }
 ```
@@ -110,7 +108,6 @@ module "storage_account" {
   source               = "./modules/storage_account"
   storage_account_name = module.keyvault.key_vault_name # implicit dependency on resource from another module
   resource_group_name  = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
 }
 ```
 
