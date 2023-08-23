@@ -119,15 +119,15 @@ Run Terraform command to create the resources.
 ```terraform
 terraform apply -auto-approve
 
-azurerm_resource_group.rg: Creating...
-azurerm_resource_group.rg: Creation complete after 0s
-module.keyvault.azurerm_public_ip.pip: Creating...
-module.storage_account.azurerm_public_ip.pip: Creating...
-module.keyvault.azurerm_key_vault.keyvault: Creating...
-module.storage_account.azurerm_public_ip.pip: Creation complete after 3s
-module.keyvault.azurerm_key_vault.keyvault: Creation complete after 2m12s
-module.storage_account.azurerm_storage_account.storage: Creating...
-module.storage_account.azurerm_storage_account.storage: Creation complete after 25s
+# azurerm_resource_group.rg: Creating...
+# azurerm_resource_group.rg: Creation complete after 0s
+# module.keyvault.azurerm_public_ip.pip: Creating...
+# module.storage_account.azurerm_public_ip.pip: Creating...
+# module.keyvault.azurerm_key_vault.keyvault: Creating...
+# module.storage_account.azurerm_public_ip.pip: Creation complete after 3s
+# module.keyvault.azurerm_key_vault.keyvault: Creation complete after 2m12s
+# module.storage_account.azurerm_storage_account.storage: Creating...
+# module.storage_account.azurerm_storage_account.storage: Creation complete after 25s
 ```
 
 Note frm the results of this experiment that creation of the dependant resource, which is the the storage account, started only after the creation of the key vault, as it depends implicitly on it.
@@ -139,6 +139,26 @@ This results in reducing the execution time.
 >Dependency on a specific resource from a module results in less execution time than dependency on the entire module.
 
 ## Scenario 4: module storage_account depends implicitly on module keyvault
+
+In scenario 3, you used the implicit dependency on specific resources.
+You rely on Terraform to detect these implicit dependencies.
+This works when terraform detects a reference to a resource.
+In some use cases, you might not have a reference to a resource ans still want to setup a dependency.
+The solution is to use explicit dependency to the specific resource.
+
+Here is an example.
+
+```hcl
+module "storage_account" {
+  source               = "./modules/storage_account"
+  storage_account_name = "strg1235790"
+  resource_group_name  = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+  depends_on           = [ module.keyvault.azurerm_key_vault.keyvault ] # explicit dependency on specific resource
+}
+```
+
+This would have the same impact as an implicit dependency, just like in scenario 3.
 
 ## Conclusion
 
