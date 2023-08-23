@@ -64,6 +64,8 @@ terraform apply -auto-approve
 
 Note from the output, because there is no dependencies between modules, the resources will be created in parallel.
 
+![](images/scenario-1.png)
+
 > Resources from independant modules will be created in parallel, with no specified order.
 
 Cleanup the resources before continuing with the next scenario.
@@ -112,6 +114,8 @@ terraform apply -auto-approve
 
 Note how the resources from the storage account module are created after all the resources from the kayvault module.
 
+![](images/scenario-2.png)
+
 >The impact of explicit dependency between modules is that the resources from the dependant module will be delayed until the creation of all resources from original module.
 
 ## Scenario 3: module depends implicitly only on a specific resource from another module
@@ -150,6 +154,8 @@ Resources in both modules still could be created in parallel.
 In scenario 1, terraform started by creating 2 resources in parallel. 
 However, in this scenario, terraform started by creating 3 resources in parallel.
 This results in reducing the execution time.
+
+![](images/scenario-3.png)
 
 >Dependency on a specific resource from a module results in less execution time than dependency on the entire module.
 
