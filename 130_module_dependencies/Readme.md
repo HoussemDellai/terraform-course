@@ -56,6 +56,10 @@ terraform apply -auto-approve
 # module.keyvault.azurerm_key_vault.keyvault: Creating...
 # module.keyvault.azurerm_public_ip.pip: Creating...
 # module.storage_account.azurerm_storage_account.storage: Creating...
+# module.keyvault.azurerm_public_ip.pip: Creation complete after 2s
+# module.storage_account.azurerm_public_ip.pip: Creation complete after 2s
+# module.storage_account.azurerm_storage_account.storage: Creation complete after 22s
+# module.keyvault.azurerm_key_vault.keyvault: Creation complete after 2m9s
 ```
 
 Note from the output, because there is no dependencies between modules, the resources will be created in parallel.
