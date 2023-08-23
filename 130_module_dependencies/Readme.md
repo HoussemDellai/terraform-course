@@ -23,8 +23,21 @@ In the following example, the module doesn't depend on any other module.
 It just depends on a resource group at the root configuration.
 
 ```hcl
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-prod"
+  location = "westeurope"
+}
+
+module "keyvault" {
+  source = "./modules/keyvault"
+
+  key_vault_name      = "kv123579"
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
 module "storage_account" {
-  source               = "./modules/storage_account"
+  source = "./modules/storage_account"
+
   storage_account_name = "strg1235790"
   resource_group_name  = azurerm_resource_group.rg.name
 }
