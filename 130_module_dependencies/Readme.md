@@ -138,7 +138,7 @@ This results in reducing the execution time.
 ## Conclusion
 
 You learned in this lab the different options and impact for setting up dependencies between modules and resources. 
-The learning is that you should prefer to use specific dependency on a specific resource rather than a dependency on an entire module.
+The learning is that you should prefer to use implicit dependency on a specific resource rather than a dependency on an entire module.
 
 
 <!-- BEGIN_TF_DOCS -->
