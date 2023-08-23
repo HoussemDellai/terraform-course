@@ -14,11 +14,23 @@ It is needed just for demoing purposes.
 
 Both modules depends implicitly on the resource group created at the root resource as they reference the resource group name and location.
 
-## Scenario 1: No dependencies between modules
+## Scenario 1: no dependencies between modules
 
 In this scenarion, module storage account does not depend on module keyvault.
 There are no explicit or implicit dependency.
-As a result, the creation of the resources will happen in parallel.
+
+In the following example, the module doesn't depend on any other module.
+It just depends on a resource group at the root configuration.
+
+```hcl
+module "storage_account" {
+  source               = "./modules/storage_account"
+  storage_account_name = "strg1235790"
+  resource_group_name  = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+}
+```
+
 Let's run two independant modules and see what will happen.
 Make sure that only resource group, key vault and storage account are uncommented.
 
@@ -44,7 +56,7 @@ Cleanup the resources before continuing with the next scenario.
 terraform destroy -auto-approve
 ```
 
-## Scenario 2: module storage_account depends explicitly on module keyvault
+## Scenario 2: module depends explicitly on another module
 
 In this scenario, you explore a Terraform keyword called `depends_on`.
 This was introduced first to set dependencies between resources.
@@ -56,7 +68,13 @@ You will have two modules where the second module depends on the first one.
 The syntax in Terraform is the following.
 
 ```hcl
-depends_on = [ module.keyvault ] # explicit dependency on entire module
+module "storage_account" {
+  source               = "./modules/storage_account"
+  storage_account_name = "strg1235790"
+  resource_group_name  = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+  depends_on           = [ module.keyvault ] # explicit dependency on entire module
+}
 ```
 
 To simulate this scanario, make sure that only resource group, key vault and storage account (scenatrio 2) are uncommented.
@@ -81,9 +99,44 @@ Note how the resources from the storage account module are created after all the
 
 >The impact of explicit dependency between modules is that the resources from the dependant module will be delayed until the creation of all resources from original module.
 
-## Scenario 3: module storage_account depends explicitly only on Public IP from module keyvault
+## Scenario 3: module depends implicitly only on a specific resource from another module
 
+In this scenario, you will explore an implicit dependency on a specific resource within a module.
+An impilict dependency is a direct reference to a resource or data property like the name, location, tags, etc.
+Let's run an experiment to see the impact.
 
+```hcl
+module "storage_account" {
+  source               = "./modules/storage_account"
+  storage_account_name = module.keyvault.key_vault_name # implicit dependency on resource from another module
+  resource_group_name  = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+}
+```
+
+Run Terraform command to create the resources.
+
+```terraform
+terraform apply -auto-approve
+
+azurerm_resource_group.rg: Creating...
+azurerm_resource_group.rg: Creation complete after 0s
+module.keyvault.azurerm_public_ip.pip: Creating...
+module.storage_account.azurerm_public_ip.pip: Creating...
+module.keyvault.azurerm_key_vault.keyvault: Creating...
+module.storage_account.azurerm_public_ip.pip: Creation complete after 3s
+module.keyvault.azurerm_key_vault.keyvault: Creation complete after 2m12s
+module.storage_account.azurerm_storage_account.storage: Creating...
+module.storage_account.azurerm_storage_account.storage: Creation complete after 25s
+```
+
+Note frm the results of this experiment that creation of the dependant resource, which is the the storage account, started only after the creation of the key vault, as it depends implicitly on it.
+Resources in both modules still could be created in parallel.
+In scenario 1, terraform started by creating 2 resources in parallel. 
+However, in this scenario, terraform started by creating 3 resources in parallel.
+This results in reducing the execution time.
+
+>Dependency on a specific resource from a module results in less execution time than dependency on the entire module.
 
 ## Scenario 4: module storage_account depends implicitly on module keyvault
 
