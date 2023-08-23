@@ -11,17 +11,7 @@ module "keyvault" {
   location            = azurerm_resource_group.rg.location
 }
 
-# Scenario 1: module storage_account does not depend on module keyvault
-
-module "storage_account" {
-  source = "./modules/storage_account"
-
-  storage_account_name = "strg1235790"
-  resource_group_name  = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
-}
-
-# # Scenario 2: module storage_account depends explicitly on module keyvault
+# # Scenario 1: module storage_account does not depend on module keyvault
 
 # module "storage_account" {
 #   source = "./modules/storage_account"
@@ -29,9 +19,19 @@ module "storage_account" {
 #   storage_account_name = "strg1235790"
 #   resource_group_name  = azurerm_resource_group.rg.name
 #   location             = azurerm_resource_group.rg.location
-
-#   depends_on = [ module.keyvault ] # explicit dependency on entire module
 # }
+
+# Scenario 2: module storage_account depends explicitly on module keyvault
+
+module "storage_account" {
+  source = "./modules/storage_account"
+
+  storage_account_name = "strg1235790"
+  resource_group_name  = azurerm_resource_group.rg.name
+  location             = azurerm_resource_group.rg.location
+
+  depends_on = [ module.keyvault ] # explicit dependency on entire module
+}
 
 # # Scenario 3: module storage_account depends explicitly only on Public IP from module keyvault
 

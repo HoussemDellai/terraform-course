@@ -46,7 +46,44 @@ terraform destroy -auto-approve
 
 ## Scenario 2: module storage_account depends explicitly on module keyvault
 
+In this scenario, you explore a Terraform keyword called `depends_on`.
+This was introduced first to set dependencies between resources.
+Starting from version 0.13 of terraform, `depends_on` could be used also for setting dependencies between modules.
+
+Let's see how that works.
+You will have two modules where the second module depends on the first one.
+
+The syntax in Terraform is the following.
+
+```hcl
+depends_on = [ module.keyvault ] # explicit dependency on entire module
+```
+
+To simulate this scanario, make sure that only resource group, key vault and storage account (scenatrio 2) are uncommented.
+Then run the terraform apply command to create the resources.
+
+```terraform
+terraform apply -auto-approve
+
+# azurerm_resource_group.rg: Creating...
+# azurerm_resource_group.rg: Creation complete after 1s
+# module.keyvault.azurerm_public_ip.pip: Creating...
+# module.keyvault.azurerm_key_vault.keyvault: Creating...
+# module.keyvault.azurerm_public_ip.pip: Creation complete after 2s
+# module.keyvault.azurerm_key_vault.keyvault: Creation complete after 2m40s
+# module.storage_account.azurerm_public_ip.pip: Creating...
+# module.storage_account.azurerm_storage_account.storage: Creating...
+# module.storage_account.azurerm_public_ip.pip: Creation complete after 3s
+# module.storage_account.azurerm_storage_account.storage: Creation complete after 27s
+```
+
+Note how the resources from the storage account module are created after all the resources from the kayvault module.
+
+>The impact of explicit dependency between modules is that the resources from the dependant module will be delayed until the creation of all resources from original module.
+
 ## Scenario 3: module storage_account depends explicitly only on Public IP from module keyvault
+
+
 
 ## Scenario 4: module storage_account depends implicitly on module keyvault
 
