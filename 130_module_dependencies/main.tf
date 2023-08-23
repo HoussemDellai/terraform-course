@@ -53,5 +53,5 @@ module "storage_account" {
   resource_group_name  = azurerm_resource_group.rg.name
   location             = azurerm_resource_group.rg.location
 
-  depends_on = [ module.keyvault.azurerm_key_vault.keyvault ] # explicit dependency on specific resource
+    depends_on = [ module.keyvault.azurerm_key_vault ] # explicit dependency on specific resource
 }

@@ -1,4 +1,4 @@
-# Deep dive into Terraform modules dependencies
+# Learn by doing: Terraform modules dependencies
 
 ## Introduction
 
@@ -77,7 +77,7 @@ module "storage_account" {
 }
 ```
 
-To simulate this scanario, make sure that only resource group, key vault and storage account (scenatrio 2) are uncommented.
+To test this scanario, make sure that only resource group, key vault and storage account (scenatrio 2) are uncommented.
 Then run the terraform apply command to create the resources.
 
 ```terraform
@@ -137,28 +137,6 @@ However, in this scenario, terraform started by creating 3 resources in parallel
 This results in reducing the execution time.
 
 >Dependency on a specific resource from a module results in less execution time than dependency on the entire module.
-
-## Scenario 4: module storage_account depends implicitly on module keyvault
-
-In scenario 3, you used the implicit dependency on specific resources.
-You rely on Terraform to detect these implicit dependencies.
-This works when terraform detects a reference to a resource.
-In some use cases, you might not have a reference to a resource ans still want to setup a dependency.
-The solution is to use explicit dependency to the specific resource.
-
-Here is an example.
-
-```hcl
-module "storage_account" {
-  source               = "./modules/storage_account"
-  storage_account_name = "strg1235790"
-  resource_group_name  = azurerm_resource_group.rg.name
-  location             = azurerm_resource_group.rg.location
-  depends_on           = [ module.keyvault.azurerm_key_vault.keyvault ] # explicit dependency on specific resource
-}
-```
-
-This would have the same impact as an implicit dependency, just like in scenario 3.
 
 ## Conclusion
 
