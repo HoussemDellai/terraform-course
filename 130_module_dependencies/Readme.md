@@ -162,6 +162,9 @@ This would have the same impact as an implicit dependency, just like in scenario
 
 ## Conclusion
 
+You learned in this lab the different options and impact for setting up dependencies between modules and resources. 
+The learning is that you should prefer to use specific dependency on a specific resource rather than a dependency on an entire module.
+
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
