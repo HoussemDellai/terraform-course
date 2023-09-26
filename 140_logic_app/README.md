@@ -1,19 +1,57 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-logic-app-demo"
-  location = "westeurope"
-}
+# Deploying Logic Apps using Terraform
 
-data "azurerm_managed_api" "managed_api_outlook" {
-  name     = "outlook"
-  location = azurerm_resource_group.rg.location
-}
+## Introduction
 
-resource "azurerm_api_connection" "api_connection_outlook" {
-  name                = "outlook"
-  resource_group_name = azurerm_resource_group.rg.name
-  managed_api_id      = data.azurerm_managed_api.managed_api_outlook.id
-  display_name        = "outlook"
-}
+In this lab, you will learn how to create and deploy an Azure Logic App using Terraform.
+
+Logic Apps are invented to make it easy for developers and also non-developers to create applications called workflows.
+It uses a visual designer where you can drag and drop actions instead of writing code.
+
+Behind the scenes, a JSON ARM template is generated to save the workflow configuration.
+
+![](images/action-send-email.png)
+
+You can export that ARM template and use to redeploy the same Logic App workflow.
+
+This approach is much more easier and faster than creating the Logic App using ARM templates without using the visual designer.
+That is because the syntax of the Logic Apps takes a bit long time to understand it.
+
+## Issue with Terraform provider's support for Logic Apps
+
+The visual designer generates ARM template. What about Terraform ?
+
+Terraform defines resources to create a workflow, triggers and actions.
+But for the actions it relies on JSON ARM template. And it is a 'headache' to configure.
+You will find it much more practical to just use the exported ARM template and deploy it as it is using `azurerm_resource_group_template_deployment`.
+
+## Creating Logic App using Azure portal
+
+In order to understand how Logic App works, you will need to create the Logic App workflow manually using the visual designer.
+You want to to use Logic App to send an email when you trigger it.
+
+Start be creating a new Logic App resource in Azure portal. Then go to `Logic app designer` section to start the creation.
+
+![](images/choose-action.png)
+
+The workflow will be composed of two components:
+- A trigger of type HTTP trigger that accepts a JSON payload containing the email destination and content
+- An Action to compose and send email using `outlook` connector, to the destination email from the trigger
+
+The `outlook` action will use your own outlook user identity to send emails on your behalf.
+
+The end result should be like this.
+
+![](images/view-code.png)
+
+## Deploying Logic App using Terraform and ARM template
+
+Now that the Logic App ARM template is generated, you can go to export it.
+
+![](images/view-code-workflow.png)
+
+You will use that ARM template to deploy it using Terraform with `azurerm_resource_group_template_deployment`.
+
+```hcl
 
 resource "azurerm_resource_group_template_deployment" "logic_app" {
   name                = "logic-app-deploy"
@@ -117,3 +155,4 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
 }
 TEMPLATE
 }
+```
