@@ -156,3 +156,48 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
 TEMPLATE
 }
 ```
+
+You can create the `outlook` API connection using Terraform, like the following.
+
+```hcl
+data "azurerm_managed_api" "managed_api_outlook" {
+  name     = "outlook"
+  location = azurerm_resource_group.rg.location
+}
+
+resource "azurerm_api_connection" "api_connection_outlook" {
+  name                = "outlook"
+  resource_group_name = azurerm_resource_group.rg.name
+  managed_api_id      = data.azurerm_managed_api.managed_api_outlook.id
+  display_name        = "outlook"
+}
+```
+
+Now you are ready to deploy Logic App using Terraform.
+
+```bash
+terraform init
+terraform plan -out tfplan
+terraform apply tfplan
+```
+
+Check the deployed resources.
+
+![](images/resources.png)
+
+Make sure to authenticate to the outlook API connection.
+
+![](images/authorize-outlook.png)
+
+## Test the workflow
+
+Go to Overview -> Run Trigger -> Run with payload.
+Then enter a JSON content with your email address.
+
+![](images/test-workflow.png)
+
+Within a second, you should get a success message. Then you can check your email to find out you received an email from the Logic App workflow.
+
+## Conclusion
+
+You learned in this lab how to export an ARM template for Logic App and use in Terraform.
