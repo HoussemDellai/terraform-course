@@ -69,7 +69,7 @@ resource "azurerm_key_vault" "main" {
     object_id               = "99b281c9-823c-4633-af92-8ac556a19bee"
     secret_permissions      = ["all"]
     storage_permissions     = ["all"]
-    tenant_id               = "16b3c013-d300-468d-ac64-7eda0820b6d3"
+    tenant_id               = "16b3c013-xxxxx"
   }]
   enable_rbac_authorization       = false
   enabled_for_deployment          = false
@@ -83,7 +83,7 @@ resource "azurerm_key_vault" "main" {
   sku_name                        = "standard"
   soft_delete_retention_days      = 90
   tags                            = {}
-  tenant_id                       = "16b3c013-d300-468d-ac64-7eda0820b6d3"
+  tenant_id                       = "16b3c013-xxx"
   network_acls {
     bypass                     = "AzureServices"
     default_action             = "Allow"
@@ -96,7 +96,7 @@ resource "azurerm_key_vault" "main" {
 resource "azurerm_key_vault_secret" "main" {
   content_type    = null
   expiration_date = null
-  key_vault_id    = "/subscriptions/82f6d75e-85f4-434a-ab74-5dddd9fa8910/resourceGroups/rg-terraform/providers/Microsoft.KeyVault/vaults/kv12357913tf"
+  key_vault_id    = "/subscriptions/82f6d75e-xxx/resourceGroups/rg-terraform/providers/Microsoft.KeyVault/vaults/kv12357913tf"
   name            = "terraform-backend-key"
   not_before_date = null
   tags = {
