@@ -82,18 +82,20 @@ resource "azuredevops_workitem" "issue" {
 resource "azuredevops_workitem" "user-story" {
   project_id = azuredevops_project.project.id
   title      = "Creating Login Page"
-  type       = "User Story"  # Bug, Epic, Feature, Issue, Task, Test Case, User Story
-  state      = "Active" # New, Active, Resolved, and Closed
+  type       = "User Story" # Bug, Epic, Feature, Issue, Task, Test Case, User Story
+  state      = "Active"     # New, Active, Resolved, and Closed
   tags       = ["frontend", "mobile-app"]
 }
 
 resource "azuredevops_workitem" "task" {
   project_id = azuredevops_project.project.id
-  
-  title      = "Creating Authorisation Server"
-  type       = "Task"  # Bug, Epic, Feature, Issue, Task, Test Case, User Story
-  tags       = ["api", "authorisation"]
+
+  title = "Creating Authorisation Server"
+  type  = "Task" # Bug, Epic, Feature, Issue, Task, Test Case, User Story
+  tags  = ["api", "authorisation"]
 }
+
+# import existing Git repository
 
 resource "azuredevops_git_repository" "import-repo" {
   project_id = azuredevops_project.project.id
@@ -106,18 +108,14 @@ resource "azuredevops_git_repository" "import-repo" {
 }
 
 resource "azuredevops_build_definition" "pipeline-imported" {
-  project_id = azuredevops_project.project.id
-  name       = "CI-CD Pipeline Matrix"
-  path       = "\\webapp"
+  project_id      = azuredevops_project.project.id
+  name            = "CI-CD Pipeline Matrix"
+  path            = "\\webapp"
   agent_pool_name = "Azure Pipelines"
 
   ci_trigger {
     use_yaml = true
   }
-
-  # pull_request_trigger {
-  #   use_yaml = true
-  # }
 
   features {
     skip_first_run = false
