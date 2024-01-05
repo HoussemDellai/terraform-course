@@ -1,5 +1,9 @@
 # Azure App Service Domain in Terraform
 
+## News
+
+This is now available as Terraform module on Terraform Registry: https://registry.terraform.io/modules/HoussemDellai/appservice-domain/azapi/
+
 ## Problem
 
 You can create a custom domain name in Azure using App Service Domain service.
@@ -13,7 +17,7 @@ However for labs, workshops and demonstrations, this is very useful to make the 
 
 ## Solution
 
-We'll provide a Terraform implemntation for creating a custom domain name using Azure App Service Domain.
+We'll provide a Terraform implementation for creating a custom domain name using Azure App Service Domain.
 We'll use `AzApi` provider to create the resource. More info about AzApi here: https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/azapi_resource.
 
 The AzApi will call the REST API and pass the required JSON file containing the needed attributes.
@@ -23,7 +27,7 @@ We also create an Azure DNS Zone to manage and configure the domain name.
 
 And we create an A record "test" to make sure the configuration works.
 
-The complete Terraform implemntation is in this current folder.
+The complete Terraform implementation is in this current folder.
 But here is a
 
 ```terraform
@@ -106,15 +110,11 @@ az appservice domain create `
 
 ## Important notes
 
-You should use a Pay-As-You-Go azure subcription to be able to create Azure App Service Domain.
+You should use a Pay-As-You-Go azure subscription to be able to create Azure App Service Domain.
 MSDN/VisualStudio and Free Azure subscriptions doesn't work.
 
 Within the terraform config file, you can change the contact info for the contactAdmin, contactRegistrant, contactBilling and contactTech.
 It worked for me when reusing the same contact !
-
-We didn't create any link between DNS Zone and App Service Domain. 
-How the DNS Zone was linked/bound to the custom domain name ?
-I suppose it is a default Azure configuration, as the two resources are in the same resource group and/or the use the same domain name.
 
 ## What is next ?
 
