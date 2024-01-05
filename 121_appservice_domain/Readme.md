@@ -28,7 +28,7 @@ We also create an Azure DNS Zone to manage and configure the domain name.
 And we create an A record "test" to make sure the configuration works.
 
 The complete Terraform implementation is in this current folder.
-But here is a
+But here is how to use it.
 
 ```terraform
 resource "azurerm_dns_zone" "dns_zone" {
@@ -107,6 +107,12 @@ az appservice domain create `
    --contact-info=@'contact_info.json' `
    --accept-terms
 ```
+
+## Video tutorial
+
+Here is a Youtube video explaining how this works: [https://www.youtube.com/watch?v=ptdAcsG2ROI](https://www.youtube.com/watch?v=ptdAcsG2ROI)
+
+![](https://github.com/HoussemDellai/terraform-azapi-appservice-domain/blob/main/images/youtube.png?raw=true)
 
 ## Important notes
 
